@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>Calibattion_TEST_TO_GUI</TargetName>
+      <TargetName>OTA</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pArmCC>6190000::V6.19::ARMCLANG</pArmCC>
@@ -50,7 +50,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>Calibattion_TEST_TO_GUI\</OutputDirectory>
-          <OutputName>Calibattion_TEST_TO_GUI</OutputName>
+          <OutputName>OTA</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -440,6 +440,11 @@
               <FileType>1</FileType>
               <FilePath>.\FLASH_SECTOR_F4.c</FilePath>
             </File>
+            <File>
+              <FileName>menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\menu.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -565,11 +570,20 @@
       <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.6.0" condition="ARMv6_7_8-M Device">
         <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0"/>
         <targetInfos>
-          <targetInfo name="Calibattion_TEST_TO_GUI"/>
+          <targetInfo name="OTA"/>
         </targetInfos>
       </component>
     </components>
     <files/>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>Calibattion_TEST_TO_GUI</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>

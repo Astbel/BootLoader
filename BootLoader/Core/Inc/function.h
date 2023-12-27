@@ -22,4 +22,10 @@ extern void OTP_Protect_Event(void);
 extern void OCP_Protect_Event(void);
 extern void OVP_Protect_Event(void);
 extern void Black_Box_Write_Message_Status(void);
+
+/*BootLoader Menu*/
+void BootLoader_Menu(void);
+void RunApp(void);
+
+
 #endif

@@ -1,17 +1,6 @@
 /* USER CODE BEGIN Header */
 /*
-2023/10/31 UART 傳送ADC訊息給C#訊息
-
-尚未新增以下
-1. 接收C#命令執行儲存ADC值
-2. 儲存當前ADC值至對應EEPROM地址 FLASH儲存需要新增
-
-2023/11/1 新增 UART 接收 C#指令
-1.新增對應Uart 接收指令
-2.新增Flash 記憶體儲存刪除
-
-2023/11/3 新增Flash 讀取寫入查詢功能
-1.優化uart查詢字串搜尋以指標函數去查詢以便利之後還想做擴充性
+OTA TEST
 
 
 */
@@ -113,7 +102,7 @@ int main(void)
   MX_USART2_UART_Init(); // Uart2 clk 異常不能使用
   MX_USART3_UART_Init();
   // MX_ADC1_Init();
-  MX_TIM10_Init();
+  // MX_TIM10_Init();
   /* 圓形緩衝初始化 把buffer 以及 head tail 初始化0 */
   Ringbuf_init();
   /**/
@@ -137,9 +126,11 @@ int main(void)
   Flash_Write_NUM(0x0800D100, val);
   Rxval = Flash_Read_NUM(0x0800D100);
 #endif
+  /*BootLoader Menu*/
+
 
   /* Start ISR */
-  HAL_TIM_Base_Start_IT(&htim10);
+  // HAL_TIM_Base_Start_IT(&htim10);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -152,15 +143,11 @@ int main(void)
       Uart_write(data, pc_uart);
     }
 #endif
-    // Test Multi ADC
-    //  Multi_ADC_Sample();
-
-    // 測試C#指令
-    //  Get_Command_From_C_shrap();
+    /*Message Bootloader for User to Erase Application*/
 
     /*觀測點*/
-    // HAL_GPIO_TogglePin(LD2_GPIO_Port,LD2_Pin);
-    // HAL_Delay(100);
+    HAL_GPIO_TogglePin(LD2_GPIO_Port,LD2_Pin);
+    HAL_Delay(100);
   }
   /* USER CODE END 3 */
 }

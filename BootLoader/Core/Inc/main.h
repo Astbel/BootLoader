@@ -64,14 +64,18 @@ extern "C"
 
 /* USER CODE END EC */
 /* Base address of the Flash sectors */
-#define ADDR_FLASH_SECTOR_0 ((uint32_t)0x08000000) /* Base address of Sector 0, 16 Kbytes */
-#define ADDR_FLASH_SECTOR_1 ((uint32_t)0x08004000) /* Base address of Sector 1, 16 Kbytes */
-#define ADDR_FLASH_SECTOR_2 ((uint32_t)0x08008000) /* Base address of Sector 2, 16 Kbytes */
-#define ADDR_FLASH_SECTOR_3 ((uint32_t)0x0800C000) /* Base address of Sector 3, 16 Kbytes */
-#define ADDR_FLASH_SECTOR_4 ((uint32_t)0x08010000) /* Base address of Sector 4, 64 Kbytes */
-#define ADDR_FLASH_SECTOR_5 ((uint32_t)0x08020000) /* Base address of Sector 5, 128 Kbytes */
-#define ADDR_FLASH_SECTOR_6 ((uint32_t)0x08040000) /* Base address of Sector 6, 128 Kbytes */
-#define ADDR_FLASH_SECTOR_7 ((uint32_t)0x08060000) /* Base address of Sector 7, 128 Kbytes */
+#define ADDR_FLASH_SECTOR_0 ((uint32_t)0x08000000)  /* Base address of Sector 0, 16 Kbytes */
+#define ADDR_FLASH_SECTOR_1 ((uint32_t)0x08004000)  /* Base address of Sector 1, 16 Kbytes */
+#define ADDR_FLASH_SECTOR_2 ((uint32_t)0x08008000)  /* Base address of Sector 2, 16 Kbytes */
+#define ADDR_FLASH_SECTOR_3 ((uint32_t)0x0800C000)  /* Base address of Sector 3, 16 Kbytes */
+#define ADDR_FLASH_SECTOR_4 ((uint32_t)0x08010000)  /* Base address of Sector 4, 64 Kbytes */
+#define ADDR_FLASH_SECTOR_5 ((uint32_t)0x08020000)  /* Base address of Sector 5, 128 Kbytes */
+#define ADDR_FLASH_SECTOR_6 ((uint32_t)0x08040000)  /* Base address of Sector 6, 128 Kbytes */
+#define ADDR_FLASH_SECTOR_7 ((uint32_t)0x08060000)  /* Base address of Sector 7, 128 Kbytes */
+#define ADDR_FLASH_SECTOR_8 ((uint32_t)0x08080000)  /* Base @ of Sector 8, 128 Kbyte */
+#define ADDR_FLASH_SECTOR_9 ((uint32_t)0x080A0000)  /* Base @ of Sector 9, 128 Kbyte */
+#define ADDR_FLASH_SECTOR_10 ((uint32_t)0x080C0000) /* Base @ of Sector 10, 128 Kbyte */
+#define ADDR_FLASH_SECTOR_11 ((uint32_t)0x080E0000) /* Base @ of Sector 11, 128 Kbyte */
 /* Exported macro ------------------------------------------------------------*/
 /* Flash define */
 #define Flash_Addr_size (4)
@@ -87,19 +91,17 @@ extern "C"
 #define Flash_Addr_OCP (0x0800C150)
 #define Flash_Addr_OVP (0x0800C160)
 /*兩點校正MAX MIN*/
-#define MAX_5V   (20)
-#define MIN_5V   (0)
-#define MAX_12V  (100)
-#define MIN_12V  (0)
+#define MAX_5V (20)
+#define MIN_5V (0)
+#define MAX_12V (100)
+#define MIN_12V (0)
 /*Flash Test Define value*/
-#define Flash_5V_Max_Hex  (2201)
-#define Flash_5V_Min_Hex  (23)
+#define Flash_5V_Max_Hex (2201)
+#define Flash_5V_Min_Hex (23)
 #define Flash_12V_Max_Hex (3986)
 #define Flash_12V_Min_Hex (23)
 /*Flash 縮放增益因為int型別在C上計算要放大的關西*/
 #define Flash_Gain (1000)
-
-
 
 /*傳輸buffer 大小配置*/
 #define Uart_Buffer (200)
@@ -137,16 +139,23 @@ extern "C"
 #define TCK_GPIO_Port GPIOA
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
-  /* USER CODE BEGIN Private defines */
 
-  /* USER CODE END Private defines */
+/*Bootloader 模式*/
+#define FILE_NAME_LENGTH        (256)
+#define FILE_SIZE_LENGTH        (16)
+/* End of the Flash address */
+#define USER_FLASH_END_ADDRESS        0x0807FFFF
+/* Define the user application size */
+#define USER_FLASH_SIZE   (USER_FLASH_END_ADDRESS - APPLICATION_ADDRESS + 1)
+
+/* Define the address from where user application will be loaded.
+   Note: the 1st sector 0x08000000-0x08003FFF is reserved for the Bootloader code */
+#define APPLICATION_ADDRESS   (uint32_t)0x08010000 
 
   /*條件編譯DEBUG區*/
   // #define DEBUG_MODE_FLASH 1
   //  #define DEBUG_MODE_UART  1
   // #define DEBUG_MODE_UART_ADC_Message 1
-
-
 
 #ifdef __cplusplus
 }

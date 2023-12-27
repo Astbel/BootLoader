@@ -30,7 +30,7 @@
 "calibattion_test_to_gui\stm32f4xx_hal_tim_ex.o"
 "calibattion_test_to_gui\stm32f4xx_hal_uart.o"
 "calibattion_test_to_gui\system_stm32f4xx.o"
---strict --scatter "Calibattion_TEST_TO_GUI\Calibattion_TEST_TO_GUI.sct"
+--strict --scatter "Calibattion_TEST_TO_GUI\OTA.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
---list "Calibattion_TEST_TO_GUI.map" -o Calibattion_TEST_TO_GUI\Calibattion_TEST_TO_GUI.axf
+--list "OTA.map" -o Calibattion_TEST_TO_GUI\OTA.axf

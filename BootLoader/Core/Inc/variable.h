@@ -3,11 +3,9 @@
 /************************include**************/
 
 /******************結構體***********************/
-
 extern struct PFC_VARIABLES PFC_Variables;
 extern struct Allert_Portect Dyanmic_Portect;
 extern struct Flash_Dynamic Flash_Memory;
-/*********************ADC*****************************/
 
 /**********************C# command 指標函數************************/
 typedef void (*CommandHandler)(void);
@@ -62,7 +60,7 @@ extern uint32_t Data_12V_Max_Addr;
 extern uint32_t Data_OTP_Addr;
 extern uint32_t Data_OCP_Addr;
 extern uint32_t Data_OVP_Addr;
-/*********************Slope method**********************/
-
+/*********************BootLoader**********************/
+typedef  void (*pFunction)(void);  //User Applcation
 
 #endif
