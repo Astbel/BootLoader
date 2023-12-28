@@ -334,4 +334,41 @@ void calculateSlope(struct Flash_Dynamic *flashMemory, uint32_t test_adc, uint32
   flashMemory->slope_value = (min + flashMemory->block_a) / Flash_Gain;
 }
 
+/**
+  * @brief  This function writes a data buffer in flash (data are 32-bit aligned).
+  * @note   After writing data buffer, the flash content is checked.
+  * @param  FlashAddress: start address for writing data buffer
+  * @param  Data: pointer on data buffer
+  * @param  DataLength: length of data buffer (unit is 32-bit word)   
+  * @retval 0: Data successfully written to Flash memory
+  *         1: Error occurred while writing data in Flash memory
+  *         2: Written Data in flash memory is different from expected one
+  */
+uint32_t FLASH_If_Write(uint32_t FlashAddress, uint32_t* Data ,uint32_t DataLength)
+{
+  uint32_t i = 0;
 
+  for (i = 0; (i < DataLength) && (FlashAddress <= (USER_FLASH_END_ADDRESS-4)); i++)
+  {
+    /* Device voltage range supposed to be [2.7V to 3.6V], the operation will
+       be done by word */ 
+    if (HAL_FLASH_Program(TYPEPROGRAM_WORD, FlashAddress, *(uint32_t*)(Data+i)) == HAL_OK)      
+    {
+     /* Check the written value */
+      if (*(uint32_t*)FlashAddress != *(uint32_t*)(Data+i))
+      {
+        /* Flash content doesn't match SRAM content */
+        return(FLASHIF_WRITINGCTRL_ERROR);
+      }
+      /* Increment FLASH destination address */
+      FlashAddress += 4;
+    }
+    else
+    {
+      /* Error occurred while writing data in Flash memory */
+      return (FLASHIF_WRITING_ERROR);
+    }
+  }
+
+  return (FLASHIF_OK);
+}

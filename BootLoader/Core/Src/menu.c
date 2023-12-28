@@ -24,6 +24,15 @@ void BootLoader_Menu(void)
     Uart_sendstring(buffer, pc_uart);
 
     /*呼叫bootloader執行續*/
+
+    /**
+     * 1. 呼叫check 版本
+     * 2. 擦除User 軟體
+     * 3. 寫入User 軟體 
+     * 4.  
+     */
+
+   
 }
 
 /**
@@ -48,10 +57,47 @@ void RunApp(void)
     Jump_To_Application();
 }
 
-/**/
+/**
+ * @brief 移除使用者內程序
+ * ADDR  起始sector bank
+ * ADDR  結束sector bank
+ * 這邊要定義User Applcation 的記憶體層
+ */
+void Erase_User_Applcation(void)
+{
+   // printf("Erasing Flash memory\n");
+	Uart_sendstring("Erasing User Applcation\n", pc_uart);
+	// 处理 Erase Flash memory 命令
+	Flash_Erase_Sectors(ADDR_FLASH_SECTOR_1, ADDR_FLASH_SECTOR_7);
+}
 
+/**
+ * @brief 燒錄bin檔
+ * ADDR  起始sector bank
+ * ADDR  結束sector bank
+ * 透過Ymodem寫入 bin檔
+ */
+void Flash_User_Applcation(void)
+{
+   
+}
 
+/**
+ * @brief 
+ * 定義 軟體版本在記憶體層
+ * ADDR 寫入bootloader 地址
+ *  
+ */
+void Check_FW_Version(void)
+{
+   /*傳送字串長度*/
+    char buffer[Uart_Buffer];
 
+    sprintf(buffer, "The Version is");
+
+    Uart_sendstring(buffer, pc_uart);
+
+} 
 
 
 

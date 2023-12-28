@@ -5,6 +5,7 @@
         "main.h": "c",
         "function.h": "c",
         "variable.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "ymodem.h": "c"
     }
 }

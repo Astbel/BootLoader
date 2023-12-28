@@ -52,6 +52,7 @@ typedef struct
 
 /*********************Flash***************************/
 extern int check_data;
+extern uint8_t aFileName[64];
 // Addr for memory
 extern uint32_t Data_5V_Min_Addr;
 extern uint32_t Data_5V_Max_Addr;

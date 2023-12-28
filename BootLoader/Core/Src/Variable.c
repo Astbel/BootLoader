@@ -2,9 +2,9 @@
 struct PFC_VARIABLES PFC_Variables;
 struct Allert_Portect Dyanmic_Portect;
 // 申明變數
-uint32_t Protect_12V, Protect_5V;
 
 /*Flash 變數申明區*/
+uint8_t aFileName[64];
 
 /*Flash 地址申明區*/
 uint32_t Data_5V_Min_Addr;
@@ -26,7 +26,7 @@ void Initail_Variable(void)
         PFC_Variables.adc_raw[i] = 0;
     // Inital Flash variable
 
-    Protect_12V = 0, Protect_5V = 0;
+    // Protect_12V = 0, Protect_5V = 0;
 
     /*Flash 測試變數使用區*/
 

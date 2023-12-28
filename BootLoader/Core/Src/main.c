@@ -144,7 +144,7 @@ int main(void)
     }
 #endif
     /*Message Bootloader for User to Erase Application*/
-
+    
     /*觀測點*/
     HAL_GPIO_TogglePin(LD2_GPIO_Port,LD2_Pin);
     HAL_Delay(100);

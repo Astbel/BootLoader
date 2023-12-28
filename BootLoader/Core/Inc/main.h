@@ -38,9 +38,11 @@ extern "C"
 #include "stdlib.h"
 #include "FLASH_SECTOR_F4.h"
 
-  /* Private includes ----------------------------------------------------------*/
-  /* USER CODE BEGIN Includes */
-
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#define device_uart &huart2
+#define pc_uart &huart3
+// #define UartHandle  huart3
   /* USER CODE END Includes */
   extern UART_HandleTypeDef huart2;
   extern UART_HandleTypeDef huart3;
@@ -52,8 +54,7 @@ extern "C"
 #define Timer_PRESCALER_VALUE (uint32_t)(((SystemCoreClock) / 45000000) - 1)
 #define Timer_PERIOD_VALUE (uint32_t)(10500 - 1) /* Period Value  */
 /* USER CODE END ET */
-#define device_uart &huart2
-#define pc_uart &huart3
+
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
 // 記憶體儲存地址區域
@@ -141,16 +142,47 @@ extern "C"
 #define SWO_GPIO_Port GPIOB
 
 /*Bootloader 模式*/
-#define FILE_NAME_LENGTH        (256)
-#define FILE_SIZE_LENGTH        (16)
+#define FILE_NAME_LENGTH (64)
+#define FILE_SIZE_LENGTH (16)
 /* End of the Flash address */
-#define USER_FLASH_END_ADDRESS        0x0807FFFF
+#define USER_FLASH_END_ADDRESS 0x0807FFFF
 /* Define the user application size */
-#define USER_FLASH_SIZE   (USER_FLASH_END_ADDRESS - APPLICATION_ADDRESS + 1)
+#define USER_FLASH_SIZE (USER_FLASH_END_ADDRESS - APPLICATION_ADDRESS + 1)
+
+  /* Error code */
+  enum
+  {
+    FLASHIF_OK = 0,
+    FLASHIF_ERASEKO,
+    FLASHIF_WRITINGCTRL_ERROR,
+    FLASHIF_WRITING_ERROR
+  };
+
+  enum
+  {
+    FLASHIF_PROTECTION_NONE = 0,
+    FLASHIF_PROTECTION_PCROPENABLED = 0x1,
+    FLASHIF_PROTECTION_WRPENABLED = 0x2,
+    FLASHIF_PROTECTION_RDPENABLED = 0x4,
+  };
 
 /* Define the address from where user application will be loaded.
    Note: the 1st sector 0x08000000-0x08003FFF is reserved for the Bootloader code */
-#define APPLICATION_ADDRESS   (uint32_t)0x08010000 
+#define APPLICATION_ADDRESS (uint32_t)0x08010000
+#define APPLICATION_ADDRESS_END (uint32_t)0x080E0000
+/*Uart Time out*/
+#define TX_TIMEOUT ((uint32_t)100)
+#define RX_TIMEOUT ((uint32_t)0xFFFFFFFF)
+/*Common*/
+#define IS_AF(c) ((c >= 'A') && (c <= 'F'))
+#define IS_af(c) ((c >= 'a') && (c <= 'f'))
+#define IS_09(c) ((c >= '0') && (c <= '9'))
+#define ISVALIDHEX(c) IS_AF(c) || IS_af(c) || IS_09(c)
+#define ISVALIDDEC(c) IS_09(c)
+#define CONVERTDEC(c) (c - '0')
+
+#define CONVERTHEX_alpha(c) (IS_AF(c) ? (c - 'A' + 10) : (c - 'a' + 10))
+#define CONVERTHEX(c) (IS_09(c) ? (c - '0') : CONVERTHEX_alpha(c))
 
   /*條件編譯DEBUG區*/
   // #define DEBUG_MODE_FLASH 1

@@ -32,5 +32,6 @@ float Flash_Read_NUM (uint32_t StartSectorAddress);
 uint32_t GetSector(uint32_t Address);
 
 uint32_t Flash_Read_Addr_Data_Exit(uint32_t StartSectorAddress);
+uint32_t FLASH_If_Write(uint32_t FlashAddress, uint32_t* Data ,uint32_t DataLength);
 
 #endif /* INC_FLASH_SECTOR_F4_H_ */
