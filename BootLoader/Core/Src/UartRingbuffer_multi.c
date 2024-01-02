@@ -924,3 +924,29 @@ HAL_StatusTypeDef Serial_PutByte( uint8_t param )
 //   }
   return HAL_UART_Transmit(pc_uart, &param, 1, TX_TIMEOUT);
 }
+
+
+/**
+ * @brief 
+ * 
+ * @return uint8_t 
+ */
+uint8_t Receive_User_Select(void)
+{
+  /*接收大小*/
+  char buffer[Buffer_size];
+  uint8_t result;
+  /*從uart rx buffer內複製出來*/
+  strncpy(buffer, (const char *)_rx_buffer2->buffer, Buffer_size);
+  /*buffer內字串轉換數組*/
+  result =atoi(buffer);
+
+  /*Null狀況設立*/
+
+  /*清空buffer*/
+  memset(buffer, '\0', Buffer_size);
+  /*反傳處理後的值*/
+  return result;
+}
+
+

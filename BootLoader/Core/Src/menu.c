@@ -15,41 +15,38 @@ uint32_t JumpAddress;
  */
 void BootLoader_Menu(void)
 {
+  uint8_t User_input;
+
   /*傳送字串長度*/
   Uart_sendstring("Welcome to Bootloader Mode,Plz Enter a cmd to continue\r\n", pc_uart);
   Uart_sendstring("1.Check the Version of the firmware\r\n", pc_uart);
   Uart_sendstring("2.Earse the User Applcation\r\n", pc_uart);
   Uart_sendstring("3.Updata the User Applcation\r\n", pc_uart);
   /*等待User 輸入 timeout 和 非法輸入時 不執行並跳出非正規輸入*/
-  
+  User_input = Receive_User_Select();
   /**
    * 1. 呼叫check 版本
    * 2. 擦除User 軟體
    * 3. 寫入User 軟體
-   * 4.
    */
-}
-/**
- * @brief 
- * 
- * @return uint8_t 
- */
-uint8_t Receive_User_Select(void)
-{
-  /*接收大小*/
-  char buffer[Buffer_size];
-  uint8_t result;
-  /*從uart rx buffer內複製出來*/
-  strncpy(buffer, (const char *)_rx_buffer2->buffer, Buffer_size);
-  /*buffer內字串轉換數組*/
-  result =atoi(buffer);
+  switch (User_input)
+  {
+  case 1:
+    Check_FW_Version();
+    break;
+  
+  case 2:
+    Erase_User_Applcation();
+    break;
 
-  /*Null狀況設立*/
+  case 3:
+    Flash_User_Applcation();
+    break;
 
-  /*清空buffer*/
-  memset(buffer, '\0', Buffer_size);
-  /*反傳處理後的值*/
-  return result;
+  default:
+    Uart_sendstring("UnValid Enter Plz check\r\n",pc_uart);
+    break;
+  }
 }
 
 /**
