@@ -69,19 +69,15 @@ static void MX_USART3_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-/* USER CODE END 0 */
-
+/* 韌體版本測試編寫 */
+// FW_Code_Number = 0.0;
 /**
  * @brief  The application entry point.
  * @retval int
  */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
-  /* MCU Configuration--------------------------------------------------------*/
+  /* 韌體版本地址配置*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
@@ -102,7 +98,7 @@ int main(void)
   MX_USART2_UART_Init(); // Uart2 clk 異常不能使用
   MX_USART3_UART_Init();
   // MX_ADC1_Init();
-  // MX_TIM10_Init();
+  MX_TIM10_Init();
   /* 圓形緩衝初始化 把buffer 以及 head tail 初始化0 */
   Ringbuf_init();
   /**/
@@ -128,9 +124,8 @@ int main(void)
 #endif
   /*BootLoader Menu*/
 
-
   /* Start ISR */
-  // HAL_TIM_Base_Start_IT(&htim10);
+  HAL_TIM_Base_Start_IT(&htim10);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -144,10 +139,10 @@ int main(void)
     }
 #endif
     /*Message Bootloader for User to Erase Application*/
-    
+
     /*觀測點*/
-    HAL_GPIO_TogglePin(LD2_GPIO_Port,LD2_Pin);
-    HAL_Delay(100);
+    // HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+    // HAL_Delay(100);
   }
   /* USER CODE END 3 */
 }

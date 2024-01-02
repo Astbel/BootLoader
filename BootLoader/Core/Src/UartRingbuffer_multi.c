@@ -765,6 +765,7 @@ CommandEntry commandTable[] = {
 	{"Black Box Status", Black_Box_Write_Message_Status},
 	// below is testing the calibration
 	{"Test Value is", Serial_Slopping_Method},
+	{"FW_Version",Check_FW_Version},
 	// 添加其他命令...
 };
 

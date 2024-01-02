@@ -37,6 +37,11 @@ extern "C"
 #include "string.h"
 #include "stdlib.h"
 #include "FLASH_SECTOR_F4.h"
+#include "ymodem.h"
+/*Buffer 大小*/
+#define Buffer_size (512)
+/*版本資訊地址定義*/
+#define FW_Version_Addr (0x0800C134)
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */

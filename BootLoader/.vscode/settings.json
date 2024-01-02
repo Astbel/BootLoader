@@ -6,6 +6,8 @@
         "function.h": "c",
         "variable.h": "c",
         "string.h": "c",
-        "ymodem.h": "c"
+        "ymodem.h": "c",
+        "stdlib.h": "c",
+        "flash_sector_f4.h": "c"
     }
 }

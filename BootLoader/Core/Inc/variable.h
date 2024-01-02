@@ -63,5 +63,9 @@ extern uint32_t Data_OCP_Addr;
 extern uint32_t Data_OVP_Addr;
 /*********************BootLoader**********************/
 typedef  void (*pFunction)(void);  //User Applcation
+/*********************FW Version**********************/
+extern float FW_Code_Number;
+
+
 
 #endif
