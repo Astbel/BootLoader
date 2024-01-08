@@ -145,7 +145,8 @@ extern "C"
 #define TCK_GPIO_Port GPIOA
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
-
+/*Jump Test*/
+#define Jump_CNT (5000)
 /*Bootloader 模式*/
 #define FILE_NAME_LENGTH (64)
 #define FILE_SIZE_LENGTH (16)
@@ -173,8 +174,8 @@ extern "C"
 
 /* Define the address from where user application will be loaded.
    Note: the 1st sector 0x08000000-0x08003FFF is reserved for the Bootloader code */
-#define APPLICATION_ADDRESS (uint32_t)0x08010000
-#define APPLICATION_ADDRESS_END (uint32_t)0x080E0000
+#define APPLICATION_ADDRESS (0x8020000 + 4)
+#define APPLICATION_ADDRESS_END (uint32_t)0x08060000
 /*Uart Time out*/
 #define TX_TIMEOUT ((uint32_t)100)
 #define RX_TIMEOUT ((uint32_t)0xFFFFFFFF)

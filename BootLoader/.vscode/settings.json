@@ -8,6 +8,7 @@
         "string.h": "c",
         "ymodem.h": "c",
         "stdlib.h": "c",
-        "flash_sector_f4.h": "c"
+        "flash_sector_f4.h": "c",
+        "type_traits": "c"
     }
 }

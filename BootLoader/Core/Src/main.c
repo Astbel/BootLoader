@@ -98,12 +98,12 @@ int main(void)
   MX_USART2_UART_Init(); // Uart2 clk 異常不能使用
   MX_USART3_UART_Init();
   // MX_ADC1_Init();
-  MX_TIM10_Init();
+  // MX_TIM10_Init();
   /* 圓形緩衝初始化 把buffer 以及 head tail 初始化0 */
   Ringbuf_init();
   /**/
   Initail_Variable();
-
+  Uart_sendstring("welcome to bootloader mode",pc_uart);
   /*Flash 測試功能區*/
   /* Make Sure you cross check the protected Sectors in the reference manual of your board */
 #ifdef DEBUG_MODE_FLASH
@@ -125,9 +125,10 @@ int main(void)
   /*BootLoader Menu*/
 
   /* Start ISR */
-  HAL_TIM_Base_Start_IT(&htim10);
+  // HAL_TIM_Base_Start_IT(&htim10);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  // BootLoader_Menu();
   while (1)
   {
 // 測試UART接收回傳  Receive 和 Transmint正常
@@ -139,10 +140,11 @@ int main(void)
     }
 #endif
     /*Message Bootloader for User to Erase Application*/
-
+    // BootLoader_Menu();
     /*觀測點*/
     // HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
     // HAL_Delay(100);
+    Test_Cnt_Jump_User_App();
   }
   /* USER CODE END 3 */
 }

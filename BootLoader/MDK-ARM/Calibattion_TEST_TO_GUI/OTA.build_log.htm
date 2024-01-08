@@ -3,61 +3,64 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: £gVision V5.16.0.0
-Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: 1 1, 1, LIC=----
+IDE-Version: £gVision V5.38.0.0
+Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: 11 11, 1, LIC=8MZI6-DKM0F-AWJ2F-656NP-4XURH-LIU82
  
 Tool Versions:
-Toolchain:       MDK-Lite  Version: 5.16.0.0
-Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 (build 20)
-Assembler:       Armasm.exe V5.06 (build 20)
-Linker/Locator:  ArmLink.exe V5.06 (build 20)
-Library Manager: ArmAr.exe V5.06 (build 20)
-Hex Converter:   FromElf.exe V5.06 (build 20)
-CPU DLL:         SARMCM3.DLL V5.16.0.0
-Dialog DLL:      DCM.DLL V1.13.2.0
-Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.17.0
-Dialog DLL:      TCM.DLL V1.14.5.0
+Toolchain:       MDK-ARM Professional  Version: 5.38.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.19
+Assembler:       Armasm.exe V6.19
+Linker/Locator:  ArmLink.exe V6.19
+Library Manager: ArmAr.exe V6.19
+Hex Converter:   FromElf.exe V6.19
+CPU DLL:         SARMCM3.DLL V5.38.0.0
+Dialog DLL:      DCM.DLL V1.17.5.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.1.0.0
+Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
-C:\Users\Astbel\Desktop\OTA\BootLoader\MDK-ARM\Calibattion_TEST_TO_GUI.uvprojx
-Project File Date:  01/02/2024
+C:\Users\astbe\OneDrive\Desktop\OTA\BootLoader\MDK-ARM\Calibattion_TEST_TO_GUI.uvprojx
+Project File Date:  01/04/2024
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+*** Using Compiler 'V6.19', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'OTA'
+../Core/Src/menu.c(124): warning: format specifies type 'int' but the argument has type 'uint8_t *' (aka 'unsigned char *') [-Wformat]
+    sprintf(buffer, "File Name: %c\n\r", aFileName);
+                                ~~       ^~~~~~~~~
+                                %s
+1 warning generated.
 compiling menu.c...
-../Core/Inc/function.h(37): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\Core\Src\menu.c(97): warning:  #177-D: variable "number" was declared but never referenced
-    uint8_t number[11] = {0};
-..\Core\Src\menu.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=14264 RO-data=876 RW-data=180 ZI-data=6060  
+Program Size: Code=11962 RO-data=702 RW-data=12 ZI-data=6028  
 FromELF: creating hex file...
-"Calibattion_TEST_TO_GUI\OTA.axf" - 0 Error(s), 2 Warning(s).
+"Calibattion_TEST_TO_GUI\OTA.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS.5.8.0.pack
-                ARM::CMSIS:CORE:5.5.0
+                http://www.keil.com/pack/ARM.CMSIS.5.9.0.pack
+                ARM.CMSIS.5.9.0
                 CMSIS (Common Microcontroller Software Interface Standard)
-   * Component: CORE Version: 5.5.0
+   * Component: CORE Version: 5.6.0
+
+Package Vendor: Keil
+                https://www.keil.com/pack/Keil.STM32F4xx_DFP.2.17.0.pack
+                Keil.STM32F4xx_DFP.2.17.0
+                STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
 
 <h2>Collection of Component include folders:</h2>
-  C:\Users\Astbel\Desktop\OTA\BootLoader\MDK-ARM\RTE
-  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.8.0\CMSIS\Core\Include
-  C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+  ./RTE/_OTA
+  C:/Users/NBbackup01/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include
+  C:/Users/NBbackup01/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include
 
 <h2>Collection of Component Files used:</h2>
 
-   * Component: ARM::CMSIS:CORE:5.5.0
-      Source file:   CMSIS\Core\Template\ARMv8-M\tz_context.c
-      Include file:  CMSIS\Core\Include\tz_context.h
-      Source file:   CMSIS\Core\Template\ARMv8-M\main_s.c
-Build Time Elapsed:  00:00:02
+   * Component: ARM::CMSIS:CORE:5.6.0
+      Include file:  CMSIS/Core/Include/tz_context.h
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

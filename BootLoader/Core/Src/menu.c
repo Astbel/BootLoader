@@ -34,7 +34,7 @@ void BootLoader_Menu(void)
   case 1:
     Check_FW_Version();
     break;
-  
+
   case 2:
     Erase_User_Applcation();
     break;
@@ -42,9 +42,12 @@ void BootLoader_Menu(void)
   case 3:
     Flash_User_Applcation();
     break;
+  case 4:
+    RunApp();
+    break;
 
   default:
-    Uart_sendstring("UnValid Enter Plz check\r\n",pc_uart);
+    // Uart_sendstring("UnValid Enter Plz check\r\n",pc_uart);
     break;
   }
 }
@@ -53,22 +56,33 @@ void BootLoader_Menu(void)
  * @brief  Run to user app
  * @param  None
  * @retval None
+ * ARM架構下User跳轉地址reset規範中ADDR+4才是USER APP位置(僅限ARM MCU上)
+ * 
+ * 跳轉流程如下:
+ * User ptr 指標建立 (如果再#define中本身就有配置+4 reset復位指標配置上就不用再度添加否則會導致跳轉找不到User程序)
+ * Jump_To_Application = (pFunction)JumpAddress 建構函數指標函數作為跳轉呼叫地址
+ * __set_MSP(*(__IO uint32_t *)APPLICATION_ADDRESS) User App stack層正確性
+ * Jump_To_Application()跳轉地址
  */
 void RunApp(void)
 {
-  Uart_sendstring("Start program execution......\r\n\n", pc_uart);
-
   // 从应用程序的第二字（地址 APPLICATION_ADDRESS+4）读取一个32位的值
-  JumpAddress = *(__IO uint32_t *)(APPLICATION_ADDRESS + 4);
+  JumpAddress = *(__IO uint32_t *)(APPLICATION_ADDRESS);
 
   // 将 Jump_To_Application 设置为一个函数指针，指向 JumpAddress 地址处的函数
   Jump_To_Application = (pFunction)JumpAddress;
 
-  // 设置主堆栈指针（MSP）为应用程序的起始地址处的值
+  // 设置主堆栈指针（MSP）为应用程序的起始地址处的值,確保User app stack層正確性
   __set_MSP(*(__IO uint32_t *)APPLICATION_ADDRESS);
 
   // 调用 Jump_To_Application，实际上执行了一个间接函数调用，跳转到用户应用程序
   Jump_To_Application();
+
+  /*close isr*/
+  // __disable_irq();
+  /*可以正確跳轉致User 應用層*/
+  // void (*user_app_reset_handler)(void) = (void *)(*((uint32_t *)(APPLICATION_ADDRESS)));
+  // user_app_reset_handler();
 }
 
 /**
@@ -140,4 +154,18 @@ void Check_FW_Version(void)
 
   sprintf(buffer, "\n\n\r FW Version is %0.1f\n\r", FW_Code_Number);
   Uart_sendstring(buffer, pc_uart);
+}
+
+void Test_Cnt_Jump_User_App(void)
+{
+  /*buffer for cnt*/
+  char buffer[Buffer_size];
+  /*計時跳轉*/
+  static int16_t value = 0;
+  value++;
+  /*Print on terinaml*/
+  sprintf(buffer, "TImer is %d", value);
+  Uart_sendstring(buffer, pc_uart);
+  if(value>=Jump_CNT)
+    RunApp();
 }
