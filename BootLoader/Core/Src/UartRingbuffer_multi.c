@@ -945,11 +945,12 @@ int8_t Receive_User_Select(void)
 	/*非法輸入判定回傳-1*/
 
 	// 檢查轉換是否成功，若不成功，視為非法輸入
-	if (result == 0 && buffer[0] != '0')
-		result = -1;
+	// if (result == 0 && buffer[0] != '0')
+	// 	result = -1;
 
-	/*清空buffer*/
+	/*清空buffer包含 rx buffer 環形指針也要重製否則會造成無法傳輸死機*/
 	memset(buffer, '\0', Buffer_size);
+	Reset_Rx_Buffer();
 	/*反傳處理後的值*/
 	return result;
 }

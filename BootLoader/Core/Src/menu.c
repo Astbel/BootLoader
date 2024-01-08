@@ -6,54 +6,73 @@
 uint8_t FileName[FILE_NAME_LENGTH]; // array to store filename of download *.bin
 pFunction Jump_To_Application;
 uint32_t JumpAddress;
-uint8_t invalid_input;
 
 /* Private function prototypes -----------------------------------------------*/
-enum BootloaderCommand
-{
-  UNValid_Input = -1,
-  CHECK_VERSION = 1,
-  ERASE_APPLICATION,
-  UPDATE_APPLICATION,
-  RUN_APPLICATION
-};
 /**
  * @brief
- * 顯示PC端進入Bootloader 選單
+ * 顯示 PC 端進入 Bootloader 選單
  */
+// BootLoader_Menu 使用 UserCommand 進行 switch
 void BootLoader_Menu(void)
 {
-  uint8_t User_input;
-
-  Uart_sendstring("Welcome to Bootloader Mode,Plz Enter a cmd to continue\r\n", pc_uart);
-  Uart_sendstring("1.Check the Version of the firmware\r\n", pc_uart);
-  Uart_sendstring("2.Erase the User Application\r\n", pc_uart);
-  Uart_sendstring("3.Update the User Application\r\n", pc_uart);
-  Uart_sendstring("4.Run the User Application\r\n", pc_uart);
-  /*StandBy等待User是否輸入*/
   while (1)
   {
-    /**
-     *  Receive_User_Select檢測輸入 判例是在非法字元以及沒輸入處理這兩種expection
-     *  switch case 則是處理對應狀況
-     */
-    User_input = Receive_User_Select();
-    switch (User_input)
+    switch (currentState)
     {
+    case MENU:
+      if(Print_Menu_Message !=True)/* standby 避免重複打印 */
+      {    
+      Uart_sendstring("Welcome to Bootloader Mode,Plz Enter a cmd to continue\r\n", pc_uart);
+      Uart_sendstring("1.Check the Version of the firmware\r\n", pc_uart);
+      Uart_sendstring("2.Erase the User Application\r\n", pc_uart);
+      Uart_sendstring("3.Update the User Application\r\n", pc_uart);
+      Uart_sendstring("4.Run the User Application\r\n", pc_uart);
+      Print_Menu_Message = True;
+      }
+      /*等待user 輸入*/
+      userCommand = Receive_User_Select();
+
+      switch (userCommand)
+      {
+      case CHECK_VERSION_CMD:
+        currentState = CHECK_VERSION;
+        break;
+
+      case ERASE_APPLICATION_CMD:
+        currentState = ERASE_APPLICATION;
+        break;
+
+      case UPDATE_APPLICATION_CMD:
+        currentState = UPDATE_APPLICATION;
+        break;
+
+      case RUN_APPLICATION_CMD:
+        currentState = RUN_APPLICATION;
+        break;
+      }
+      break;
+
     case CHECK_VERSION:
       Check_FW_Version();
+      Print_Menu_Message = False;
+      currentState = MENU; // 返回主選單
       break;
 
     case ERASE_APPLICATION:
       Erase_User_Application();
+      Print_Menu_Message = False;
+      currentState = MENU; // 返回主選單
       break;
 
     case UPDATE_APPLICATION:
       Flash_User_Application();
+      Print_Menu_Message = False;
+      currentState = MENU; // 返回主選單
       break;
 
     case RUN_APPLICATION:
       RunApp();
+      exit(0);
       break;
     }
   }
@@ -159,7 +178,7 @@ void Check_FW_Version(void)
   /*傳送字串長度*/
   char buffer[Uart_Buffer];
 
-  sprintf(buffer, "\n\n\r FW Version is %0.1f\n\r", FW_Code_Number);
+  sprintf(buffer, "\n\n\r FW Version is %0.1f\r\n", FW_Code_Number);
   Uart_sendstring(buffer, pc_uart);
 }
 

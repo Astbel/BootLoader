@@ -11,8 +11,29 @@ extern struct Flash_Dynamic Flash_Memory;
 typedef void (*CommandHandler)(void);
 /***********************Flash**********************/
 // 測試函數 變數宣告
+// enum宣告
+typedef enum
+{
+  UnKnow =-1,
+  MENU,
+  CHECK_VERSION,
+  ERASE_APPLICATION,
+  UPDATE_APPLICATION,
+  RUN_APPLICATION
+} BootloaderState;
 
-// 正式使用函數 變數宣告
+extern BootloaderState currentState;
+
+typedef enum
+{
+  CHECK_VERSION_CMD = 1,
+  ERASE_APPLICATION_CMD,
+  UPDATE_APPLICATION_CMD,
+  RUN_APPLICATION_CMD,
+  INVALID_CMD
+} UserCommand;
+
+extern UserCommand userCommand;
 
 /********************STRUCT***************************/
 struct PFC_VARIABLES
@@ -65,7 +86,7 @@ extern uint32_t Data_OVP_Addr;
 typedef  void (*pFunction)(void);  //User Applcation
 /*********************FW Version**********************/
 extern float FW_Code_Number;
-
+extern uint8_t Print_Menu_Message;
 
 
 #endif

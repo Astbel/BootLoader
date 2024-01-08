@@ -12,10 +12,11 @@ uint32_t Data_12V_Max_Addr;
 uint32_t Data_OTP_Addr;
 uint32_t Data_OCP_Addr;
 uint32_t Data_OVP_Addr;
+uint8_t Print_Menu_Message;
 /*版本號碼*/
 float FW_Code_Number=0.1;
-
-
+BootloaderState currentState;
+UserCommand userCommand;
 /*
  * 初始化變數變量
  * 請區分 所有結構體 為一組 以利於分辨
@@ -23,6 +24,9 @@ float FW_Code_Number=0.1;
  */
 void Initail_Variable(void)
 {
+    BootloaderState currentState = MENU;
+    UserCommand userCommand =0;
+    Print_Menu_Message = False;
     // inital adc value of array adc
     for (int i = 0; i < 5; i++)
         PFC_Variables.adc_raw[i] = 0;
