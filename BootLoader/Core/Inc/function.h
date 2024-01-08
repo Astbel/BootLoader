@@ -26,10 +26,10 @@ extern void Black_Box_Write_Message_Status(void);
 /*BootLoader Menu*/
 void BootLoader_Menu(void);
 void RunApp(void);
-void Erase_User_Applcation(void);
+void Erase_User_Application(void);
 void Check_FW_Version(void);
-void Flash_User_Applcation(void);
-uint8_t Receive_User_Select(void);
+void Flash_User_Application(void);
+int8_t Receive_User_Select(void);
 
 uint32_t Str2Int(uint8_t *p_inputstr, uint32_t *p_intnum);
 void Int2Str(uint8_t *p_str, uint32_t intnum);

@@ -81,18 +81,8 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
   /* Configure the system clock */
   SystemClock_Config();
-
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init(); // Uart2 clk 異常不能使用
@@ -122,13 +112,10 @@ int main(void)
   Flash_Write_NUM(0x0800D100, val);
   Rxval = Flash_Read_NUM(0x0800D100);
 #endif
-  /*BootLoader Menu*/
-
   /* Start ISR */
   // HAL_TIM_Base_Start_IT(&htim10);
   /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  // BootLoader_Menu();
+  BootLoader_Menu();
   while (1)
   {
 // 測試UART接收回傳  Receive 和 Transmint正常
@@ -144,7 +131,7 @@ int main(void)
     /*觀測點*/
     // HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
     // HAL_Delay(100);
-    Test_Cnt_Jump_User_App();
+    // Test_Cnt_Jump_User_App();
   }
   /* USER CODE END 3 */
 }

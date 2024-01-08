@@ -6,9 +6,17 @@
 uint8_t FileName[FILE_NAME_LENGTH]; // array to store filename of download *.bin
 pFunction Jump_To_Application;
 uint32_t JumpAddress;
+uint8_t invalid_input;
 
 /* Private function prototypes -----------------------------------------------*/
-
+enum BootloaderCommand
+{
+  UNValid_Input = -1,
+  CHECK_VERSION = 1,
+  ERASE_APPLICATION,
+  UPDATE_APPLICATION,
+  RUN_APPLICATION
+};
 /**
  * @brief
  * 顯示PC端進入Bootloader 選單
@@ -17,38 +25,37 @@ void BootLoader_Menu(void)
 {
   uint8_t User_input;
 
-  /*傳送字串長度*/
   Uart_sendstring("Welcome to Bootloader Mode,Plz Enter a cmd to continue\r\n", pc_uart);
   Uart_sendstring("1.Check the Version of the firmware\r\n", pc_uart);
-  Uart_sendstring("2.Earse the User Applcation\r\n", pc_uart);
-  Uart_sendstring("3.Updata the User Applcation\r\n", pc_uart);
-  /*等待User 輸入 timeout 和 非法輸入時 不執行並跳出非正規輸入*/
-  User_input = Receive_User_Select();
-  /**
-   * 1. 呼叫check 版本
-   * 2. 擦除User 軟體
-   * 3. 寫入User 軟體
-   */
-  switch (User_input)
+  Uart_sendstring("2.Erase the User Application\r\n", pc_uart);
+  Uart_sendstring("3.Update the User Application\r\n", pc_uart);
+  Uart_sendstring("4.Run the User Application\r\n", pc_uart);
+  /*StandBy等待User是否輸入*/
+  while (1)
   {
-  case 1:
-    Check_FW_Version();
-    break;
+    /**
+     *  Receive_User_Select檢測輸入 判例是在非法字元以及沒輸入處理這兩種expection
+     *  switch case 則是處理對應狀況
+     */
+    User_input = Receive_User_Select();
+    switch (User_input)
+    {
+    case CHECK_VERSION:
+      Check_FW_Version();
+      break;
 
-  case 2:
-    Erase_User_Applcation();
-    break;
+    case ERASE_APPLICATION:
+      Erase_User_Application();
+      break;
 
-  case 3:
-    Flash_User_Applcation();
-    break;
-  case 4:
-    RunApp();
-    break;
+    case UPDATE_APPLICATION:
+      Flash_User_Application();
+      break;
 
-  default:
-    // Uart_sendstring("UnValid Enter Plz check\r\n",pc_uart);
-    break;
+    case RUN_APPLICATION:
+      RunApp();
+      break;
+    }
   }
 }
 
@@ -57,7 +64,7 @@ void BootLoader_Menu(void)
  * @param  None
  * @retval None
  * ARM架構下User跳轉地址reset規範中ADDR+4才是USER APP位置(僅限ARM MCU上)
- * 
+ *
  * 跳轉流程如下:
  * User ptr 指標建立 (如果再#define中本身就有配置+4 reset復位指標配置上就不用再度添加否則會導致跳轉找不到User程序)
  * Jump_To_Application = (pFunction)JumpAddress 建構函數指標函數作為跳轉呼叫地址
@@ -91,7 +98,7 @@ void RunApp(void)
  * ADDR  結束sector bank
  * 這邊要定義User Applcation 的記憶體層
  */
-void Erase_User_Applcation(void)
+void Erase_User_Application(void)
 {
   // printf("Erasing Flash memory\n");
   Uart_sendstring("Erasing User Applcation\n", pc_uart);
@@ -105,7 +112,7 @@ void Erase_User_Applcation(void)
  * enum 判斷本次寫入狀態
  * 接收user 資料名稱需要修正
  */
-void Flash_User_Applcation(void)
+void Flash_User_Application(void)
 {
   /*申明檔名大小*/
   uint8_t number[11] = {0};
@@ -166,6 +173,6 @@ void Test_Cnt_Jump_User_App(void)
   /*Print on terinaml*/
   sprintf(buffer, "TImer is %d", value);
   Uart_sendstring(buffer, pc_uart);
-  if(value>=Jump_CNT)
+  if (value >= Jump_CNT)
     RunApp();
 }

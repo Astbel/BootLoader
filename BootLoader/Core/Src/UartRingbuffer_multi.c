@@ -742,7 +742,7 @@ void Black_Box_Write_Message_Status(void)
 	uint32_t ocp_boolean = Dyanmic_Portect.OCP;
 	uint32_t ovp_boolean = Dyanmic_Portect.OVP;
 	// Uart buffer 傳送至serial message 端顯示當前狀態列ex 是什麼保護
-	
+
 	sprintf(buffer, "otp is %d, ocp is %d\n", otp_boolean, ocp_boolean);
 	Uart_sendstring(buffer, pc_uart);
 
@@ -765,7 +765,7 @@ CommandEntry commandTable[] = {
 	{"Black Box Status", Black_Box_Write_Message_Status},
 	// below is testing the calibration
 	{"Test Value is", Serial_Slopping_Method},
-	{"FW_Version",Check_FW_Version},
+	{"FW_Version", Check_FW_Version},
 	// 添加其他命令...
 };
 
@@ -809,144 +809,147 @@ void Reset_Rx_Buffer(void)
 }
 
 /**
-  * @brief  Convert an Integer to a string
-  * @param  p_str: The string output pointer
-  * @param  intnum: The integer to be converted
-  * @retval None
-  */
+ * @brief  Convert an Integer to a string
+ * @param  p_str: The string output pointer
+ * @param  intnum: The integer to be converted
+ * @retval None
+ */
 void Int2Str(uint8_t *p_str, uint32_t intnum)
 {
-  uint32_t i, divider = 1000000000, pos = 0, status = 0;
+	uint32_t i, divider = 1000000000, pos = 0, status = 0;
 
-  for (i = 0; i < 10; i++)
-  {
-    p_str[pos++] = (intnum / divider) + 48;
+	for (i = 0; i < 10; i++)
+	{
+		p_str[pos++] = (intnum / divider) + 48;
 
-    intnum = intnum % divider;
-    divider /= 10;
-    if ((p_str[pos-1] == '0') & (status == 0))
-    {
-      pos = 0;
-    }
-    else
-    {
-      status++;
-    }
-  }
+		intnum = intnum % divider;
+		divider /= 10;
+		if ((p_str[pos - 1] == '0') & (status == 0))
+		{
+			pos = 0;
+		}
+		else
+		{
+			status++;
+		}
+	}
 }
 
 /**
-  * @brief  Convert a string to an integer
-  * @param  p_inputstr: The string to be converted
-  * @param  p_intnum: The integer value
-  * @retval 1: Correct
-  *         0: Error
-  */
+ * @brief  Convert a string to an integer
+ * @param  p_inputstr: The string to be converted
+ * @param  p_intnum: The integer value
+ * @retval 1: Correct
+ *         0: Error
+ */
 uint32_t Str2Int(uint8_t *p_inputstr, uint32_t *p_intnum)
 {
-  uint32_t i = 0, res = 0;
-  uint32_t val = 0;
+	uint32_t i = 0, res = 0;
+	uint32_t val = 0;
 
-  if ((p_inputstr[0] == '0') && ((p_inputstr[1] == 'x') || (p_inputstr[1] == 'X')))
-  {
-    i = 2;
-    while ( ( i < 11 ) && ( p_inputstr[i] != '\0' ) )
-    {
-      if (ISVALIDHEX(p_inputstr[i]))
-      {
-        val = (val << 4) + CONVERTHEX(p_inputstr[i]);
-      }
-      else
-      {
-        /* Return 0, Invalid input */
-        res = 0;
-        break;
-      }
-      i++;
-    }
+	if ((p_inputstr[0] == '0') && ((p_inputstr[1] == 'x') || (p_inputstr[1] == 'X')))
+	{
+		i = 2;
+		while ((i < 11) && (p_inputstr[i] != '\0'))
+		{
+			if (ISVALIDHEX(p_inputstr[i]))
+			{
+				val = (val << 4) + CONVERTHEX(p_inputstr[i]);
+			}
+			else
+			{
+				/* Return 0, Invalid input */
+				res = 0;
+				break;
+			}
+			i++;
+		}
 
-    /* valid result */
-    if (p_inputstr[i] == '\0')
-    {
-      *p_intnum = val;
-      res = 1;
-    }
-  }
-  else /* max 10-digit decimal input */
-  {
-    while ( ( i < 11 ) && ( res != 1 ) )
-    {
-      if (p_inputstr[i] == '\0')
-      {
-        *p_intnum = val;
-        /* return 1 */
-        res = 1;
-      }
-      else if (((p_inputstr[i] == 'k') || (p_inputstr[i] == 'K')) && (i > 0))
-      {
-        val = val << 10;
-        *p_intnum = val;
-        res = 1;
-      }
-      else if (((p_inputstr[i] == 'm') || (p_inputstr[i] == 'M')) && (i > 0))
-      {
-        val = val << 20;
-        *p_intnum = val;
-        res = 1;
-      }
-      else if (ISVALIDDEC(p_inputstr[i]))
-      {
-        val = val * 10 + CONVERTDEC(p_inputstr[i]);
-      }
-      else
-      {
-        /* return 0, Invalid input */
-        res = 0;
-        break;
-      }
-      i++;
-    }
-  }
+		/* valid result */
+		if (p_inputstr[i] == '\0')
+		{
+			*p_intnum = val;
+			res = 1;
+		}
+	}
+	else /* max 10-digit decimal input */
+	{
+		while ((i < 11) && (res != 1))
+		{
+			if (p_inputstr[i] == '\0')
+			{
+				*p_intnum = val;
+				/* return 1 */
+				res = 1;
+			}
+			else if (((p_inputstr[i] == 'k') || (p_inputstr[i] == 'K')) && (i > 0))
+			{
+				val = val << 10;
+				*p_intnum = val;
+				res = 1;
+			}
+			else if (((p_inputstr[i] == 'm') || (p_inputstr[i] == 'M')) && (i > 0))
+			{
+				val = val << 20;
+				*p_intnum = val;
+				res = 1;
+			}
+			else if (ISVALIDDEC(p_inputstr[i]))
+			{
+				val = val * 10 + CONVERTDEC(p_inputstr[i]);
+			}
+			else
+			{
+				/* return 0, Invalid input */
+				res = 0;
+				break;
+			}
+			i++;
+		}
+	}
 
-  return res;
+	return res;
 }
 /**
-  * @brief  Transmit a byte to the HyperTerminal
-  * @param  param The byte to be sent
-  * @retval HAL_StatusTypeDef HAL_OK if OK
-  */
-HAL_StatusTypeDef Serial_PutByte( uint8_t param )
-{
-  /* May be timeouted... */
-//   if ( UartHandle.gState == HAL_UART_STATE_TIMEOUT )
-//   {
-//     UartHandle.gState = HAL_UART_STATE_READY;
-//   }
-  return HAL_UART_Transmit(pc_uart, &param, 1, TX_TIMEOUT);
-}
-
-
-/**
- * @brief 
- * 
- * @return uint8_t 
+ * @brief  Transmit a byte to the HyperTerminal
+ * @param  param The byte to be sent
+ * @retval HAL_StatusTypeDef HAL_OK if OK
  */
-uint8_t Receive_User_Select(void)
+HAL_StatusTypeDef Serial_PutByte(uint8_t param)
 {
-  /*接收大小*/
-  char buffer[Buffer_size];
-  uint8_t result;
-  /*從uart rx buffer內複製出來*/
-  strncpy(buffer, (const char *)_rx_buffer2->buffer, Buffer_size);
-  /*buffer內字串轉換數組*/
-  result =atoi(buffer);
-
-  /*Null狀況設立*/
-
-  /*清空buffer*/
-  memset(buffer, '\0', Buffer_size);
-  /*反傳處理後的值*/
-  return result;
+	/* May be timeouted... */
+	//   if ( UartHandle.gState == HAL_UART_STATE_TIMEOUT )
+	//   {
+	//     UartHandle.gState = HAL_UART_STATE_READY;
+	//   }
+	return HAL_UART_Transmit(pc_uart, &param, 1, TX_TIMEOUT);
 }
 
+/**
+ * @brief
+ *
+ * @return uint8_t
+ * 判斷user 輸入並回傳並檢測這個回傳
+ * 回傳Enum內的數
+ * -1 非法字元或是超過enum大小都算非法字元
+ */
+int8_t Receive_User_Select(void)
+{
+	/*接收大小*/
+	char buffer[Buffer_size];
+	uint8_t result;
+	/*從uart rx buffer內複製出來*/
+	strncpy(buffer, (const char *)_rx_buffer2->buffer, Buffer_size);
+	/*buffer內字串轉換數組*/
+	result = atoi(buffer);
+	/*非法輸入判定回傳-1*/
 
+	// 檢查轉換是否成功，若不成功，視為非法輸入
+	if (result == 0 && buffer[0] != '0')
+		result = -1;
+
+	/*清空buffer*/
+	memset(buffer, '\0', Buffer_size);
+	/*反傳處理後的值*/
+	return result;
+}

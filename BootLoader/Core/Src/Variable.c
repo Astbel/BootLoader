@@ -26,12 +26,7 @@ void Initail_Variable(void)
     // inital adc value of array adc
     for (int i = 0; i < 5; i++)
         PFC_Variables.adc_raw[i] = 0;
-    // Inital Flash variable
-
-    // Protect_12V = 0, Protect_5V = 0;
-
-    /*Flash 測試變數使用區*/
-
-    /*Flash 宣告變數區*/
-
+    // Inital  variable for bootloader
+    
+   
 }
