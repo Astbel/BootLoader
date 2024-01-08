@@ -93,7 +93,7 @@ int main(void)
   Ringbuf_init();
   /**/
   Initail_Variable();
-  Uart_sendstring("welcome to bootloader mode",pc_uart);
+  Uart_sendstring("welcome to bootloader mode\r\n",pc_uart);
   /*Flash 測試功能區*/
   /* Make Sure you cross check the protected Sectors in the reference manual of your board */
 #ifdef DEBUG_MODE_FLASH

@@ -20,14 +20,14 @@ void BootLoader_Menu(void)
     switch (currentState)
     {
     case MENU:
-      if(Print_Menu_Message !=True)/* standby 避免重複打印 */
-      {    
-      Uart_sendstring("Welcome to Bootloader Mode,Plz Enter a cmd to continue\r\n", pc_uart);
-      Uart_sendstring("1.Check the Version of the firmware\r\n", pc_uart);
-      Uart_sendstring("2.Erase the User Application\r\n", pc_uart);
-      Uart_sendstring("3.Update the User Application\r\n", pc_uart);
-      Uart_sendstring("4.Run the User Application\r\n", pc_uart);
-      Print_Menu_Message = True;
+      if (Print_Menu_Message != True) /* standby 避免重複打印 */
+      {
+        Uart_sendstring("Welcome to Bootloader Mode,Plz Enter a cmd to continue\r\n", pc_uart);
+        Uart_sendstring("1.Check the Version of the firmware\r\n", pc_uart);
+        Uart_sendstring("2.Erase the User Application\r\n", pc_uart);
+        Uart_sendstring("3.Update the User Application\r\n", pc_uart);
+        Uart_sendstring("4.Run the User Application\r\n", pc_uart);
+        Print_Menu_Message = True;
       }
       /*等待user 輸入*/
       userCommand = Receive_User_Select();
@@ -122,7 +122,7 @@ void Erase_User_Application(void)
   // printf("Erasing Flash memory\n");
   Uart_sendstring("Erasing User Applcation\n", pc_uart);
   // 处理 Erase Flash memory 命令
-  Flash_Erase_Sectors(ADDR_FLASH_SECTOR_1, ADDR_FLASH_SECTOR_7);
+  Flash_Erase_Sectors(ADDR_FLASH_SECTOR_5, ADDR_FLASH_SECTOR_11);
 }
 
 /**
@@ -130,6 +130,7 @@ void Erase_User_Application(void)
  * 透過Ymodem寫入 Data
  * enum 判斷本次寫入狀態
  * 接收user 資料名稱需要修正
+ * 因該改成int型別用來判定錯誤事件
  */
 void Flash_User_Application(void)
 {
@@ -194,4 +195,20 @@ void Test_Cnt_Jump_User_App(void)
   Uart_sendstring(buffer, pc_uart);
   if (value >= Jump_CNT)
     RunApp();
+}
+
+/*Error Exception*/
+
+/*Timeout*/
+
+/*Download fail reload to boot mode*/
+
+/*CheckSum for CRC if the User App is Valid*/
+
+/*用戶程序不存在的話就跳回bootmode並且顯示不存在用戶程序*/
+void UnFind_User_Application(void)
+{
+  Uart_sendstring("Unfind User Application return to boot mode\r\n", pc_uart);
+  Uart_sendstring("Plz check the bin file and reFlash again!\r\n", pc_uart);
+  currentState = MENU;
 }
