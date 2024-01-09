@@ -95,5 +95,5 @@ void Get_Command_From_C_shrap(void);
 void Reset_Rx_Buffer(void);
 /*保護事件*/
 void OTP_Protect_Event(void);
-
+void Flash_User_Application_Form_C_Shrap(void);
 #endif /* UARTRINGBUFFER_H_ */

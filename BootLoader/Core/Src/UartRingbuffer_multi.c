@@ -954,3 +954,27 @@ int8_t Receive_User_Select(void)
 	/*反傳處理後的值*/
 	return result;
 }
+
+/**
+ * @brief 從C#燒錄bin file
+ *
+ */
+void Flash_User_Application_Form_C_Shrap(void)
+{
+	/*定義cmd 字串命令*/
+	static char Flash_Download_Buffer[20]="Download Fireware";
+	size_t numBytesToCompare = strlen(Flash_Download_Buffer) + 1;   // 比较的字节数
+	/*第一次Master發送要燒錄的指令*/
+	if (memcmp(Flash_Download_Buffer, _rx_buffer2->buffer, numBytesToCompare) == String_True)
+		Uart_write(ACK, pc_uart);
+	else
+		Uart_write(NAK, pc_uart);
+	/*重制buffer 等待下一個cmd*/
+	Reset_Rx_Buffer();
+	
+	/*接收並從rx_buffer寫入地址*/
+	/*計算 bin file 的size*/
+	uint16_t Length_Of_File=sizeof(_rx_buffer2->buffer);
+	Flash_Write_Data(APPLICATION_ADDRESS,_rx_buffer2->buffer,Length_Of_File);
+
+}

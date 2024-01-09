@@ -47,7 +47,7 @@ extern "C"
 /* USER CODE BEGIN Includes */
 #define device_uart &huart2
 #define pc_uart &huart3
-// #define UartHandle  huart3
+  // #define UartHandle  huart3
   /* USER CODE END Includes */
   extern UART_HandleTypeDef huart2;
   extern UART_HandleTypeDef huart3;
@@ -120,12 +120,12 @@ extern "C"
   void Error_Handler(void);
 #define Dynmaic_Gain (2)
 
-/* USER CODE BEGIN EFP */
 /*Boolean define*/
 #define True (1)
 #define False (0)
-/* USER CODE END EFP */
-
+/* Strcmp check  */
+#define String_True (0)
+#define String_False (1)
 /* Private defines -----------------------------------------------------------*/
 #define B1_Pin GPIO_PIN_13
 #define B1_GPIO_Port GPIOC
@@ -154,6 +154,9 @@ extern "C"
 #define USER_FLASH_END_ADDRESS 0x0807FFFF
 /* Define the user application size */
 #define USER_FLASH_SIZE (USER_FLASH_END_ADDRESS - APPLICATION_ADDRESS + 1)
+/*Bootloader Master and Slaver Commucation*/
+//flash 回應boootloader uart 的反應訊號
+
 
   /* Error code */
   enum
