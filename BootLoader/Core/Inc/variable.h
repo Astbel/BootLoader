@@ -87,6 +87,6 @@ typedef  void (*pFunction)(void);  //User Applcation
 /*********************FW Version**********************/
 extern float FW_Code_Number;
 extern uint8_t Print_Menu_Message;
-
+extern uint16_t Time_Out_cnt;
 
 #endif

@@ -9,6 +9,7 @@
         "ymodem.h": "c",
         "stdlib.h": "c",
         "flash_sector_f4.h": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "stm32f4xx_hal.h": "c"
     }
 }

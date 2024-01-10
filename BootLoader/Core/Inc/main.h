@@ -108,15 +108,16 @@ extern "C"
 #define Flash_12V_Min_Hex (23)
 /*Flash 縮放增益因為int型別在C上計算要放大的關西*/
 #define Flash_Gain (1000)
-
+/*等待Master TimeOut*/
+#define Master_Flash_CMD_TimeOut (5000)
 /*傳輸buffer 大小配置*/
 #define Uart_Buffer (200)
 
 /* ADC Gain transfer back to float number */
 #define ADC_Driver_Gain (3.3 / 4095)
 
-  /* Exported functions prototypes ---------------------------------------------*/
-  void Error_Handler(void);
+/* Exported functions prototypes ---------------------------------------------*/
+void Error_Handler(void);
 #define Dynmaic_Gain (2)
 
 /*Boolean define*/

@@ -13,6 +13,7 @@ uint32_t Data_OTP_Addr;
 uint32_t Data_OCP_Addr;
 uint32_t Data_OVP_Addr;
 uint8_t Print_Menu_Message;
+uint16_t Time_Out_cnt;
 /*版本號碼*/
 float FW_Code_Number=0.1;
 BootloaderState currentState;

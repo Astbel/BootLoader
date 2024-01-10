@@ -96,4 +96,5 @@ void Reset_Rx_Buffer(void);
 /*保護事件*/
 void OTP_Protect_Event(void);
 void Flash_User_Application_Form_C_Shrap(void);
+void Handle_Timeout_Action(void);
 #endif /* UARTRINGBUFFER_H_ */

@@ -961,32 +961,58 @@ int8_t Receive_User_Select(void)
  */
 void Flash_User_Application_Form_C_Shrap(void)
 {
-	/*定義cmd 字串命令*/
-	static char Flash_Download_Buffer[20] = "Download Fireware";
-	size_t numBytesToCompare = strlen(Flash_Download_Buffer) + 1; // 比较的字节数
-	/*第一次Master發送要燒錄的指令*/
-	if (memcmp(Flash_Download_Buffer, _rx_buffer2->buffer, numBytesToCompare) == String_True)
-		Uart_write(ACK, pc_uart);
-	else
-		Uart_write(NAK, pc_uart);
-	/*重制buffer 等待下一個cmd*/
-	Reset_Rx_Buffer();
+    /* 定義 cmd 字串命令 */
+    static char Flash_Download_Buffer[20] = "Download Firmware";
+    size_t numBytesToCompare = strlen(Flash_Download_Buffer) + 1; // 比較的字节数
 
-	/*接收並從rx_buffer寫入地址*/
-	/*計算 bin file 的size*/
-	uint16_t Length_Of_File = sizeof(_rx_buffer2->buffer);
-	/*rx_Buffer 轉u32 data*/
-	/* 將 uchar 數據陣列轉換為 uint32_t 數據陣列 */
-	uint32_t convertedData[Length_Of_File / 4]; // 假設 Length_Of_File 是 4 的倍數
+    /* 取得進入函數的初始時間 */
+    uint32_t startTime = HAL_GetTick();
 
-	for (int i = 0; i < Length_Of_File / 4; ++i)
-		convertedData[i] = *((uint32_t *)&_rx_buffer2->buffer[i * 4]);
-	
-	/*轉致後的data 致 Flash寫入*/
-	Flash_Write_Data(APPLICATION_ADDRESS, convertedData, Length_Of_File);
-	
-	/*Master EOT (end of transmission) 偵測結束並告訴MASTER 完成燒錄回程EOD*/
-	if (_rx_buffer2->buffer[_rx_buffer2->tail] == EOT)
-	  Uart_write(EOT,pc_uart);
-   
-} 
+    /* 非阻塞等待 Master 的 Rx_Buffer 是否為 Download Firmware */
+    while ((memcmp(Flash_Download_Buffer, _rx_buffer2->buffer, numBytesToCompare) != String_True))
+    {
+        /* 檢查是否超過 Timeout */
+        if (HAL_GetTick() - startTime >= Master_Flash_CMD_TimeOut)
+        {
+            /* 如果超過 Timeout，執行相應的動作並離開函數 */
+            Handle_Timeout_Action();
+            return;
+        }
+    }
+
+    /* 如果跳出 while 迴圈是因為收到命令，繼續執行後面的操作 */
+
+    Uart_write(ACK, pc_uart);
+
+    /* 重制 buffer，等待下一個 cmd */
+    Reset_Rx_Buffer();
+
+    /* 接收並從 rx_buffer 寫入地址 */
+    /* 計算 bin file 的 size */
+    uint16_t Length_Of_File = sizeof(_rx_buffer2->buffer);
+
+    /* rx_Buffer 轉 u32 data */
+    /* 將 uchar 數據陣列轉換為 uint32_t 數據陣列 */
+    uint32_t convertedData[Length_Of_File / 4]; // 假設 Length_Of_File 是 4 的倍數
+
+    for (int i = 0; i < Length_Of_File / 4; ++i)
+        convertedData[i] = *((uint32_t *)&_rx_buffer2->buffer[i * 4]);
+
+    /* 轉致後的 data 致 Flash 寫入 */
+    Flash_Write_Data(APPLICATION_ADDRESS, convertedData, Length_Of_File);
+
+    /* Master EOT (end of transmission) 偵測結束並告訴 MASTER 完成燒錄回程 EOD */
+    if (_rx_buffer2->buffer[_rx_buffer2->tail] == EOT)
+        Uart_write(EOT, pc_uart);
+}
+
+/**
+ * @brief 
+ * 超時機制
+ */
+void Handle_Timeout_Action(void)
+{
+	Uart_write(NAK, pc_uart);
+	Uart_sendstring("Lost Connect!\r\n",pc_uart);
+
+}
