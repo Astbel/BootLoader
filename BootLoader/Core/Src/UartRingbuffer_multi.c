@@ -962,8 +962,8 @@ int8_t Receive_User_Select(void)
 void Flash_User_Application_Form_C_Shrap(void)
 {
 	/*定義cmd 字串命令*/
-	static char Flash_Download_Buffer[20]="Download Fireware";
-	size_t numBytesToCompare = strlen(Flash_Download_Buffer) + 1;   // 比较的字节数
+	static char Flash_Download_Buffer[20] = "Download Fireware";
+	size_t numBytesToCompare = strlen(Flash_Download_Buffer) + 1; // 比较的字节数
 	/*第一次Master發送要燒錄的指令*/
 	if (memcmp(Flash_Download_Buffer, _rx_buffer2->buffer, numBytesToCompare) == String_True)
 		Uart_write(ACK, pc_uart);
@@ -971,10 +971,22 @@ void Flash_User_Application_Form_C_Shrap(void)
 		Uart_write(NAK, pc_uart);
 	/*重制buffer 等待下一個cmd*/
 	Reset_Rx_Buffer();
-	
+
 	/*接收並從rx_buffer寫入地址*/
 	/*計算 bin file 的size*/
-	uint16_t Length_Of_File=sizeof(_rx_buffer2->buffer);
-	Flash_Write_Data(APPLICATION_ADDRESS,_rx_buffer2->buffer,Length_Of_File);
+	uint16_t Length_Of_File = sizeof(_rx_buffer2->buffer);
+	/*rx_Buffer 轉u32 data*/
+	/* 將 uchar 數據陣列轉換為 uint32_t 數據陣列 */
+	uint32_t convertedData[Length_Of_File / 4]; // 假設 Length_Of_File 是 4 的倍數
 
-}
+	for (int i = 0; i < Length_Of_File / 4; ++i)
+		convertedData[i] = *((uint32_t *)&_rx_buffer2->buffer[i * 4]);
+	
+	/*轉致後的data 致 Flash寫入*/
+	Flash_Write_Data(APPLICATION_ADDRESS, convertedData, Length_Of_File);
+	
+	/*Master EOT (end of transmission) 偵測結束並告訴MASTER 完成燒錄回程EOD*/
+	if (_rx_buffer2->buffer[_rx_buffer2->tail] == EOT)
+	  Uart_write(EOT,pc_uart);
+   
+} 

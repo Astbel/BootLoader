@@ -111,7 +111,6 @@ extern "C"
 
 /*傳輸buffer 大小配置*/
 #define Uart_Buffer (200)
-/*ADC OCP TEST Gain*/
 
 /* ADC Gain transfer back to float number */
 #define ADC_Driver_Gain (3.3 / 4095)
