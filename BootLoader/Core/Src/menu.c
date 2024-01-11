@@ -123,7 +123,7 @@ void Erase_User_Application(void)
   // printf("Erasing Flash memory\n");
   Uart_sendstring("Erasing User Applcation\n", pc_uart);
   // 处理 Erase Flash memory 命令
-  Flash_Erase_Sectors(ADDR_FLASH_SECTOR_5, ADDR_FLASH_SECTOR_11);
+  Flash_Erase_Sectors(ADDR_FLASH_SECTOR_5, ADDR_FLASH_SECTOR_7);
 }
 
 /**
