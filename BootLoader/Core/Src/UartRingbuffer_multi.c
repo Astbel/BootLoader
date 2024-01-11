@@ -964,10 +964,9 @@ void Flash_User_Application_Form_C_Shrap(void)
     /* 定義 cmd 字串命令 */
     static char Flash_Download_Buffer[20] = "Download Firmware";
     size_t numBytesToCompare = strlen(Flash_Download_Buffer) + 1; // 比較的字节数
-
     /* 取得進入函數的初始時間 */
     uint32_t startTime = HAL_GetTick();
-
+	
     /* 非阻塞等待 Master 的 Rx_Buffer 是否為 Download Firmware */
     while ((memcmp(Flash_Download_Buffer, _rx_buffer2->buffer, numBytesToCompare) != String_True))
     {
@@ -986,7 +985,7 @@ void Flash_User_Application_Form_C_Shrap(void)
 
     /* 重制 buffer，等待下一個 cmd */
     Reset_Rx_Buffer();
-
+    Uart_sendstring("Start Download Firwmare\r\n",pc_uart);	
     /* 接收並從 rx_buffer 寫入地址 */
     /* 計算 bin file 的 size */
     uint16_t Length_Of_File = sizeof(_rx_buffer2->buffer);
@@ -1004,6 +1003,8 @@ void Flash_User_Application_Form_C_Shrap(void)
     /* Master EOT (end of transmission) 偵測結束並告訴 MASTER 完成燒錄回程 EOD */
     if (_rx_buffer2->buffer[_rx_buffer2->tail] == EOT)
         Uart_write(EOT, pc_uart);
+	/*Send to Terinmal for end Flash*/
+	Uart_sendstring("Download Bin File Done!\r\n",pc_uart);	
 }
 
 /**
@@ -1014,5 +1015,5 @@ void Handle_Timeout_Action(void)
 {
 	Uart_write(NAK, pc_uart);
 	Uart_sendstring("Lost Connect!\r\n",pc_uart);
-
 }
+
