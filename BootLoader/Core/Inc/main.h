@@ -91,6 +91,7 @@ extern "C"
 #define Flash_Addr_5V_Max (0x0800C110)
 #define Flash_Addr_12V_Min (0x0800C120)
 #define Flash_Addr_12V_Max (0x0800C130)
+#define View_Addr  (0x08020000)
 
 /*保護地址用來記錄上一次保護原因*/
 #define Flash_Addr_OTP (0x0800C140)
@@ -197,7 +198,7 @@ void Error_Handler(void);
   // #define DEBUG_MODE_FLASH 1
   //  #define DEBUG_MODE_UART  1
   // #define DEBUG_MODE_UART_ADC_Message 1
-
+     #define View_Buffer 1
 #ifdef __cplusplus
 }
 #endif

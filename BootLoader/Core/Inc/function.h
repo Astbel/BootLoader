@@ -38,4 +38,6 @@ void Int2Str(uint8_t *p_str, uint32_t intnum);
 HAL_StatusTypeDef Serial_PutByte( uint8_t param );
 /*Test jump APP*/
 void Test_Cnt_Jump_User_App(void);
+void View_Flash_Data(void);
+
 #endif

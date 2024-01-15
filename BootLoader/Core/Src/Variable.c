@@ -18,6 +18,8 @@ uint16_t Time_Out_cnt;
 float FW_Code_Number=0.1;
 BootloaderState currentState;
 UserCommand userCommand;
+
+uint32_t VIEW_RX_Buffer[UART_BUFFER_SIZE];
 /*
  * 初始化變數變量
  * 請區分 所有結構體 為一組 以利於分辨

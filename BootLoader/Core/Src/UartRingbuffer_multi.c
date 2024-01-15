@@ -982,7 +982,12 @@ void Flash_User_Application_Form_C_Shrap(void)
     /* 如果跳出 while 迴圈是因為收到命令，繼續執行後面的操作 */
 
     Uart_write(ACK, pc_uart);
+	/**/
+	#ifdef View_Buffer
+    /*將RX_Buffer 複製debug 觀測*/
+	strncpy(VIEW_RX_Buffer, (const char *)_rx_buffer2->buffer, UART_BUFFER_SIZE);
 
+	#endif
     /* 重制 buffer，等待下一個 cmd */
     Reset_Rx_Buffer();
     Uart_sendstring("Start Download Firwmare\r\n",pc_uart);	

@@ -19,7 +19,8 @@ typedef enum
   CHECK_VERSION,
   ERASE_APPLICATION,
   UPDATE_APPLICATION,
-  RUN_APPLICATION
+  RUN_APPLICATION,
+  TEST_CMD
 } BootloaderState;
 
 extern BootloaderState currentState;
@@ -30,7 +31,8 @@ typedef enum
   ERASE_APPLICATION_CMD,
   UPDATE_APPLICATION_CMD,
   RUN_APPLICATION_CMD,
-  INVALID_CMD
+  INVALID_CMD,
+  View_C_Shrap
 } UserCommand;
 
 extern UserCommand userCommand;
@@ -88,5 +90,7 @@ typedef  void (*pFunction)(void);  //User Applcation
 extern float FW_Code_Number;
 extern uint8_t Print_Menu_Message;
 extern uint16_t Time_Out_cnt;
+/******************Buffer View  Flash Memory******************/
+extern uint32_t VIEW_RX_Buffer[UART_BUFFER_SIZE];
 
 #endif

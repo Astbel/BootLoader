@@ -3,7 +3,7 @@
 <title>Static Call Graph - [Calibattion_TEST_TO_GUI\OTA.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image Calibattion_TEST_TO_GUI\OTA.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Thu Jan 11 13:32:22 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Mon Jan 15 09:18:42 2024
 <BR><P>
 <H3>Maximum Stack Usage =        840 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -644,13 +644,13 @@ Global Symbols
 <P><STRONG><a name="[af]"></a>memcmp</STRONG> (Thumb, 88 bytes, Stack size 8 bytes, memcmp.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = memcmp
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
+<BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
 </UL>
 
 <P><STRONG><a name="[ae]"></a>strlen</STRONG> (Thumb, 62 bytes, Stack size 8 bytes, strlen.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = strlen
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
+<BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
 </UL>
 
 <P><STRONG><a name="[8f]"></a>__aeabi_memclr</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rt_memclr.o(.text))
@@ -664,7 +664,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[b1]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rt_memclr_w.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
+<BR><BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
 <LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Receive_User_Select
 </UL>
 
@@ -682,7 +682,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Receive_User_Select
+<BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
+<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Receive_User_Select
 </UL>
 
 <P><STRONG><a name="[e2]"></a>strcmp</STRONG> (Thumb, 124 bytes, Stack size 8 bytes, strcmpv7em.o(.text))
@@ -844,16 +845,16 @@ Global Symbols
 
 <P><STRONG><a name="[116]"></a>__use_no_semihosting_swi</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, use_no_semi.o(.text), UNUSED)
 
-<P><STRONG><a name="[a1]"></a>BootLoader_Menu</STRONG> (Thumb, 252 bytes, Stack size 200 bytes, menu.o(.text.BootLoader_Menu))
+<P><STRONG><a name="[a1]"></a>BootLoader_Menu</STRONG> (Thumb, 276 bytes, Stack size 200 bytes, menu.o(.text.BootLoader_Menu))
 <BR><BR>[Stack]<UL><LI>Max Depth = 816 + Unknown Stack Size
 <LI>Call Chain = BootLoader_Menu &rArr; Receive_User_Select &rArr; atoi &rArr; strtol &rArr; _strtoul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunApp
-<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
+<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
 <LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Receive_User_Select
-<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sectors
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sectors
 <LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_sendstring
-<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
@@ -881,7 +882,7 @@ Global Symbols
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASH_Program
 </UL>
 
-<P><STRONG><a name="[a5]"></a>Flash_Erase_Sectors</STRONG> (Thumb, 74 bytes, Stack size 24 bytes, flash.o(.text.Flash_Erase_Sectors))
+<P><STRONG><a name="[a6]"></a>Flash_Erase_Sectors</STRONG> (Thumb, 74 bytes, Stack size 24 bytes, flash.o(.text.Flash_Erase_Sectors))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = Flash_Erase_Sectors &rArr; HAL_FLASHEx_Erase &rArr; FLASH_WaitForLastOperation
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASHEx_Erase
@@ -892,13 +893,14 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BootLoader_Menu
 </UL>
 
-<P><STRONG><a name="[a6]"></a>Flash_User_Application_Form_C_Shrap</STRONG> (Thumb, 1276 bytes, Stack size 32 bytes, uartringbuffer_multi.o(.text.Flash_User_Application_Form_C_Shrap))
+<P><STRONG><a name="[a2]"></a>Flash_User_Application_Form_C_Shrap</STRONG> (Thumb, 1292 bytes, Stack size 32 bytes, uartringbuffer_multi.o(.text.Flash_User_Application_Form_C_Shrap))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104 + Unknown Stack Size
 <LI>Call Chain = Flash_User_Application_Form_C_Shrap &rArr; Flash_Write_Data &rArr; HAL_FLASH_Program &rArr; FLASH_WaitForLastOperation
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Write_Data
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Handle_Timeout_Action
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strncpy
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memcmp
@@ -914,11 +916,11 @@ Global Symbols
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASH_Program
 <LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASH_Unlock
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
+<BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
 </UL>
 
 <P><STRONG><a name="[ab]"></a>GetSector</STRONG> (Thumb, 122 bytes, Stack size 0 bytes, flash_sector_f4.o(.text.GetSector))
-<BR><BR>[Called By]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sectors
+<BR><BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sectors
 </UL>
 
 <P><STRONG><a name="[b5]"></a>HAL_DMA_Abort</STRONG> (Thumb, 142 bytes, Stack size 16 bytes, stm32f4xx_hal_dma.o(.text.HAL_DMA_Abort))
@@ -938,7 +940,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FLASH_WaitForLastOperation
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sectors
+<BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sectors
 </UL>
 
 <P><STRONG><a name="[b4]"></a>HAL_FLASH_GetError</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, stm32f4xx_hal_flash.o(.text.HAL_FLASH_GetError))
@@ -947,7 +949,7 @@ Global Symbols
 
 <P><STRONG><a name="[ad]"></a>HAL_FLASH_Lock</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32f4xx_hal_flash.o(.text.HAL_FLASH_Lock))
 <BR><BR>[Called By]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Write_Data
-<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sectors
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sectors
 </UL>
 
 <P><STRONG><a name="[b3]"></a>HAL_FLASH_Program</STRONG> (Thumb, 288 bytes, Stack size 32 bytes, stm32f4xx_hal_flash.o(.text.HAL_FLASH_Program))
@@ -960,7 +962,7 @@ Global Symbols
 
 <P><STRONG><a name="[aa]"></a>HAL_FLASH_Unlock</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, stm32f4xx_hal_flash.o(.text.HAL_FLASH_Unlock))
 <BR><BR>[Called By]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Write_Data
-<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sectors
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sectors
 </UL>
 
 <P><STRONG><a name="[d2]"></a>HAL_GPIO_Init</STRONG> (Thumb, 422 bytes, Stack size 44 bytes, stm32f4xx_hal_gpio.o(.text.HAL_GPIO_Init))
@@ -978,7 +980,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FLASH_WaitForLastOperation
 <LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
 <LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort
-<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
+<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_PWREx_EnableOverDrive
 </UL>
@@ -1173,7 +1175,7 @@ Global Symbols
 <P><STRONG><a name="[b0]"></a>Handle_Timeout_Action</STRONG> (Thumb, 1174 bytes, Stack size 8 bytes, uartringbuffer_multi.o(.text.Handle_Timeout_Action))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Handle_Timeout_Action
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
+<BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_User_Application_Form_C_Shrap
 </UL>
 
 <P><STRONG><a name="[2]"></a>HardFault_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_it.o(.text.HardFault_Handler))
@@ -1389,7 +1391,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_f2d
 </UL>
 
-<P><STRONG><a name="[a2]"></a>__aeabi_f2d</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, f2d.o(x$fpl$f2d))
+<P><STRONG><a name="[a5]"></a>__aeabi_f2d</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, f2d.o(x$fpl$f2d))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_f2d
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BootLoader_Menu

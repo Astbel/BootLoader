@@ -49,6 +49,10 @@ void BootLoader_Menu(void)
       case RUN_APPLICATION_CMD:
         currentState = RUN_APPLICATION;
         break;
+      /*Uart 訪問特定地址燒錄值*/
+      case TEST_CMD:
+        currentState = View_C_Shrap;
+        break;
       }
       break;
 
@@ -67,6 +71,12 @@ void BootLoader_Menu(void)
     case UPDATE_APPLICATION:
       // Flash_User_Application();
       Flash_User_Application_Form_C_Shrap();
+      Print_Menu_Message = False;
+      currentState = MENU; // 返回主選單
+      break;
+
+     case View_C_Shrap:
+      View_Flash_Data();
       Print_Menu_Message = False;
       currentState = MENU; // 返回主選單
       break;
@@ -214,6 +224,18 @@ void UnFind_User_Application(void)
   currentState = MENU;
 }
 
+/**
+ * @brief 
+ * 
+ */
+void View_Flash_Data(void)
+{
+  static uint32_t* view_data_ptr = (uint32_t*)View_Addr;
+
+  char buffer[Uart_Buffer];
+  sprintf(buffer, "Flash is %d\r\n", *view_data_ptr);
+  Uart_sendstring(buffer, pc_uart);
+}
 
 
 
