@@ -115,7 +115,7 @@ int main(void)
   /* Start ISR */
   // HAL_TIM_Base_Start_IT(&htim10);
   /* Infinite loop */
-  BootLoader_Menu();
+  // BootLoader_Menu();
   while (1)
   {
 // 測試UART接收回傳  Receive 和 Transmint正常
@@ -126,6 +126,8 @@ int main(void)
       Uart_write(data, pc_uart);
     }
 #endif
+    // Test_Buffer_Receive();
+    HAL_UART_Receive(pc_uart,&Test_Buffer,sizeof(Test_Buffer),1000);
     /*Message Bootloader for User to Erase Application*/
     // BootLoader_Menu();
     /*觀測點*/

@@ -434,7 +434,8 @@ void Uart_isr(UART_HandleTypeDef *huart)
 
 		else if (huart == pc_uart)
 		{
-			store_char(c, _rx_buffer2); // store data in buffer
+			// store_char(c, _rx_buffer2); // store data in buffer
+			store_uint32((uint32_t)c,pc_uart);
 		}
 
 		return;
@@ -961,64 +962,118 @@ int8_t Receive_User_Select(void)
  */
 void Flash_User_Application_Form_C_Shrap(void)
 {
-    /* 定義 cmd 字串命令 */
-    static char Flash_Download_Buffer[20] = "Download Firmware";
-    size_t numBytesToCompare = strlen(Flash_Download_Buffer) + 1; // 比較的字节数
-    /* 取得進入函數的初始時間 */
-    uint32_t startTime = HAL_GetTick();
-	
-    /* 非阻塞等待 Master 的 Rx_Buffer 是否為 Download Firmware */
-    while ((memcmp(Flash_Download_Buffer, _rx_buffer2->buffer, numBytesToCompare) != String_True))
-    {
-        /* 檢查是否超過 Timeout */
-        if (HAL_GetTick() - startTime >= Master_Flash_CMD_TimeOut)
-        {
-            /* 如果超過 Timeout，執行相應的動作並離開函數 */
-            Handle_Timeout_Action();
-            return;
-        }
-    }
+	/* 定義 cmd 字串命令 */
+	static char Flash_Download_Buffer[20] = "Download Firmware";
+	size_t numBytesToCompare = strlen(Flash_Download_Buffer) + 1; // 比較的字节数
+	/* 取得進入函數的初始時間 */
+	uint32_t startTime = HAL_GetTick();
 
-    /* 如果跳出 while 迴圈是因為收到命令，繼續執行後面的操作 */
+	/* 非阻塞等待 Master 的 Rx_Buffer 是否為 Download Firmware */
+	while ((memcmp(Flash_Download_Buffer, _rx_buffer2->buffer, numBytesToCompare) != String_True))
+	{
+		/* 檢查是否超過 Timeout */
+		if (HAL_GetTick() - startTime >= Master_Flash_CMD_TimeOut)
+		{
+			/* 如果超過 Timeout，執行相應的動作並離開函數 */
+			Handle_Timeout_Action();
+			return;
+		}
+	}
 
-    Uart_write(ACK, pc_uart);
-	/**/
-	#ifdef View_Buffer
-    /*將RX_Buffer 複製debug 觀測*/
+	/* 如果跳出 while 迴圈是因為收到命令，繼續執行後面的操作 */
+
+	Uart_write(ACK, pc_uart);
+/**/
+#ifdef View_Buffer
+	/*將RX_Buffer 複製debug 觀測*/
 	strncpy(VIEW_RX_Buffer, (const char *)_rx_buffer2->buffer, UART_BUFFER_SIZE);
+#endif
+	/* 重制 buffer，等待下一個 cmd */
+	Reset_Rx_Buffer();
+	Uart_sendstring("Start Download Firwmare\r\n", pc_uart);
+	/* 接收並從 rx_buffer 寫入地址 */
 
-	#endif
-    /* 重制 buffer，等待下一個 cmd */
-    Reset_Rx_Buffer();
-    Uart_sendstring("Start Download Firwmare\r\n",pc_uart);	
-    /* 接收並從 rx_buffer 寫入地址 */
-    /* 計算 bin file 的 size */
-    uint16_t Length_Of_File = sizeof(_rx_buffer2->buffer);
+	/* 計算 bin file 的 size */
+	uint32_t Length_Of_File = Get_Actual_Received_Size(_rx_buffer2->buffer);
 
-    /* rx_Buffer 轉 u32 data */
-    /* 將 uchar 數據陣列轉換為 uint32_t 數據陣列 */
-    uint32_t convertedData[Length_Of_File / 4]; // 假設 Length_Of_File 是 4 的倍數
+	/* rx_Buffer 轉 u32 data */
+	/* 將 uchar 數據陣列轉換為 uint32_t 數據陣列 */
+	uint32_t convertedData[Length_Of_File / 4]; // 假設 Length_Of_File 是 4 的倍數
 
-    for (int i = 0; i < Length_Of_File / 4; ++i)
-        convertedData[i] = *((uint32_t *)&_rx_buffer2->buffer[i * 4]);
+	for (int i = 0; i < Length_Of_File / 4; ++i)
+	{
+		convertedData[i] = (*((uint32_t *)&_rx_buffer2->buffer[i * 4]));
+	}
 
-    /* 轉致後的 data 致 Flash 寫入 */
-    Flash_Write_Data(APPLICATION_ADDRESS, convertedData, Length_Of_File);
+	/* 轉致後的 data 致 Flash 寫入 */
+	Flash_Write_Data(0x8020000, convertedData, Length_Of_File);
 
-    /* Master EOT (end of transmission) 偵測結束並告訴 MASTER 完成燒錄回程 EOD */
-    if (_rx_buffer2->buffer[_rx_buffer2->tail] == EOT)
-        Uart_write(EOT, pc_uart);
+	/* Master EOT (end of transmission) 偵測結束並告訴 MASTER 完成燒錄回程 EOD */
+	if (_rx_buffer2->buffer[_rx_buffer2->tail] == EOT)
+		Uart_write(EOT, pc_uart);
 	/*Send to Terinmal for end Flash*/
-	Uart_sendstring("Download Bin File Done!\r\n",pc_uart);	
+	Uart_sendstring("Download Bin File Done!\r\n", pc_uart);
 }
 
 /**
- * @brief 
+ * @brief
  * 超時機制
  */
 void Handle_Timeout_Action(void)
 {
 	Uart_write(NAK, pc_uart);
-	Uart_sendstring("Lost Connect!\r\n",pc_uart);
+	Uart_sendstring("Lost Connect!\r\n", pc_uart);
 }
+
+/**
+ * @brief 遞迴計算bin的數據大小
+ * @param buffer  要計算的封包
+ * @return uint32_t 回傳數據大小
+ */
+uint32_t Get_Actual_Received_Size(char *buffer)
+{
+	uint32_t size = 0;
+
+	/* Iterate through the buffer and count non-zero bytes */
+	while (buffer[size] != 0x00)
+	{
+		size++;
+	}
+
+	return size;
+}
+/**
+ * @brief 
+ * 測試傳輸u32 slaver 接收時char下會顯示什麼
+ */
+void Test_Buffer_Receive(void)
+{
+	strncpy(VIEW_RX_Buffer, (const char *)_rx_buffer2->buffer, UART_BUFFER_SIZE);
+}
+/**
+ * @brief 檢查ring buffer 是否溢出 
+ * 每次儲存4個byte,檢查是否益出如溢出則換下一個
+ * @param value 
+ * @param buffer 
+ */
+void store_uint32(uint32_t value, ring_buffer *buffer)
+{
+    // Ensure there is enough space in the buffer
+    // Ensure there is enough space in the buffer
+    if ((buffer->head + 4) % UART_BUFFER_SIZE != buffer->tail)
+    {
+        buffer->buffer[buffer->head] = value & 0xFF;
+        buffer->head = (buffer->head + 1) % UART_BUFFER_SIZE;
+
+        buffer->buffer[buffer->head] = (value >> 8) & 0xFF;
+        buffer->head = (buffer->head + 1) % UART_BUFFER_SIZE;
+
+        buffer->buffer[buffer->head] = (value >> 16) & 0xFF;
+        buffer->head = (buffer->head + 1) % UART_BUFFER_SIZE;
+
+        buffer->buffer[buffer->head] = (value >> 24) & 0xFF;
+        buffer->head = (buffer->head + 1) % UART_BUFFER_SIZE;
+    }
+}
+
 

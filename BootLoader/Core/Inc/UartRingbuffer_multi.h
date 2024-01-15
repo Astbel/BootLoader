@@ -97,4 +97,9 @@ void Reset_Rx_Buffer(void);
 void OTP_Protect_Event(void);
 void Flash_User_Application_Form_C_Shrap(void);
 void Handle_Timeout_Action(void);
+uint32_t Get_Actual_Received_Size(char* buffer);
+void Test_Buffer_Receive(void);
+void store_uint32(uint32_t value, ring_buffer *buffer);
+/*Char to u32 using LinkList*/
+
 #endif /* UARTRINGBUFFER_H_ */
