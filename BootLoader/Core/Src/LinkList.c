@@ -21,10 +21,10 @@ void initLinkedList(LinkedList *list)
  * @param list 當前節點
  * @param data 數據
  */
-void appendNode(LinkedList *list, uint32_t data)
+void appendNode(LinkedList *list, uint32_t *data)
 {
     Node *newNode = (Node *)malloc(sizeof(Node));
-    newNode->data = data; // 直接将 data 赋值给 newNode->data
+    newNode->data = *data; // 直接将 data 赋值给 newNode->data
     newNode->next = NULL;
 
     if (list->tail == NULL)
@@ -97,17 +97,45 @@ void removeNode(LinkedList *list, Node *targetNode)
 }
 
 /*Uart Rx CallBack 回調函示*/
+/**
+ * @brief
+ * RX 回調函數當接收到時插入linklist
+ * @param huart
+ */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     if (huart == pc_uart)
     {
         // 将接收到的数据添加到链表中
-        appendNode(&dataBuffer, Test_Buffer[0]);
+        appendNode(&dataBuffer, &Test_Buffer[0]);
 
         // 处理接收到的数据
         processReceivedData(&dataBuffer);
 
         // 准备下一次接收
-        HAL_UART_Receive_IT(pc_uart, &Test_Buffer, 1);
+        HAL_UART_Receive_IT(pc_uart, (uint8_t *)Test_Buffer, sizeof(Test_Buffer));
     }
 }
+
+/**
+ * @brief 
+ * 釋放節點數據
+ * @param list 
+ */
+void freeLinkedList(LinkedList *list)
+{
+    Node *current = list->head;
+    Node *next;
+
+    while (current != NULL)
+    {
+        next = current->next;
+        free((void*)current->data);  // 释放节点的 data
+        free(current);        // 释放节点本身
+        current = next;
+    }
+
+    list->head = NULL;
+    list->tail = NULL;
+}
+

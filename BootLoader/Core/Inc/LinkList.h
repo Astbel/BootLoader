@@ -23,13 +23,13 @@ extern LinkedList dataBuffer;
 //Linklist 初始化 main 函數調用
 void initLinkedList(LinkedList *list);
 //添加節點
-void appendNode(LinkedList *list, uint32_t data);
+void appendNode(LinkedList *list, uint32_t *data);
 //处理接收到的数据 Uart RX 回調函數調用
 void processReceivedData(LinkedList *list);
 //移出節點
 void removeNode(LinkedList *list, Node *targetNode);
-
-
+//釋放節點數據
+void freeLinkedList(LinkedList *list);
 
 
 

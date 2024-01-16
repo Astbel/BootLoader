@@ -94,9 +94,11 @@ int main(void)
   /*User 變數初始化*/
   Initail_Variable();
   /*初始化鍊表*/
-  initLinkedList(&dataBuffer);
+  // initLinkedList(&dataBuffer);
+  /*free data*/
+  freeLinkedList(&dataBuffer);
   /*開啟 uart3 中斷接收*/
-  HAL_UART_Receive_IT(pc_uart, &Test_Buffer, 1);
+  // HAL_UART_Receive_IT(pc_uart, (uint8_t *)Test_Buffer, sizeof(Test_Buffer));
 
   // Uart_sendstring("welcome to bootloader mode\r\n", pc_uart);
   /*Flash 測試功能區*/

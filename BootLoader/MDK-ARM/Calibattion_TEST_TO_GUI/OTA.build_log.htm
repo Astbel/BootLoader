@@ -27,27 +27,7 @@ Project File Date:  01/16/2024
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'OTA'
-compiling stm32f4xx_it.c...
-../Core/Src/LinkList.c(111): warning: incompatible pointer types passing 'uint32_t (*)[1]' (aka 'unsigned int (*)[1]') to parameter of type 'uint8_t *' (aka 'unsigned char *') [-Wincompatible-pointer-types]
-        HAL_UART_Receive_IT(pc_uart, &Test_Buffer, 1);
-                                     ^~~~~~~~~~~~
-../Drivers/STM32F4xx_HAL_Driver/Inc\stm32f4xx_hal_uart.h(725): note: passing argument to parameter 'pData' here
-HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
-                                                                          ^
-1 warning generated.
-compiling LinkList.c...
-../Core/Src/main.c(99): warning: incompatible pointer types passing 'uint32_t (*)[1]' (aka 'unsigned int (*)[1]') to parameter of type 'uint8_t *' (aka 'unsigned char *') [-Wincompatible-pointer-types]
-  HAL_UART_Receive_IT(pc_uart, &Test_Buffer, 1);
-                               ^~~~~~~~~~~~
-../Drivers/STM32F4xx_HAL_Driver/Inc\stm32f4xx_hal_uart.h(725): note: passing argument to parameter 'pData' here
-HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
-                                                                          ^
-1 warning generated.
-compiling main.c...
-linking...
-Program Size: Code=8000 RO-data=508 RW-data=12 ZI-data=3972  
-FromELF: creating hex file...
-"Calibattion_TEST_TO_GUI\OTA.axf" - 0 Error(s), 2 Warning(s).
+"Calibattion_TEST_TO_GUI\OTA.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -71,7 +51,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.6.0
       Include file:  CMSIS/Core/Include/tz_context.h
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
