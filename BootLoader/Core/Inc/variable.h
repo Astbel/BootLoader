@@ -1,7 +1,7 @@
 #ifndef __VARIABLE_H_
 #define __VARIABLE_H_
 /************************include**************/
-
+#define LinkList_Receive_Size (1)
 /******************結構體***********************/
 extern struct PFC_VARIABLES PFC_Variables;
 extern struct Allert_Portect Dyanmic_Portect;
@@ -92,5 +92,5 @@ extern uint8_t Print_Menu_Message;
 extern uint16_t Time_Out_cnt;
 /******************Buffer View  Flash Memory******************/
 extern uint32_t VIEW_RX_Buffer[UART_BUFFER_SIZE];
-extern uint32_t Test_Buffer[UART_BUFFER_SIZE];
+extern uint32_t Test_Buffer[LinkList_Receive_Size];
 #endif

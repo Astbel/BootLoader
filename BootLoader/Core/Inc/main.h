@@ -38,8 +38,11 @@ extern "C"
 #include "stdlib.h"
 #include "FLASH_SECTOR_F4.h"
 #include "ymodem.h"
+#include "LinkList.h"
 /*Buffer 大小*/
 #define Buffer_size (512)
+#define Test_Uart_Buffer_Size (4096)
+
 /*版本資訊地址定義*/
 #define FW_Version_Addr (0x0800C134)
 
@@ -199,6 +202,7 @@ void Error_Handler(void);
   //  #define DEBUG_MODE_UART  1
   // #define DEBUG_MODE_UART_ADC_Message 1
      #define View_Buffer 1
+     #define Test_Receive_Buffer 1
 #ifdef __cplusplus
 }
 #endif

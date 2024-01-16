@@ -22,78 +22,32 @@ Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
 C:\Users\astbe\OneDrive\Desktop\OTA\BootLoader\MDK-ARM\Calibattion_TEST_TO_GUI.uvprojx
-Project File Date:  01/04/2024
+Project File Date:  01/16/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'OTA'
-compiling Variable.c...
-compiling ISR.c...
-compiling ADC.c...
 compiling stm32f4xx_it.c...
-../Core/Src/main.c(130): warning: incompatible pointer types passing 'uint32_t (*)[1024]' (aka 'unsigned int (*)[1024]') to parameter of type 'uint8_t *' (aka 'unsigned char *') [-Wincompatible-pointer-types]
-    HAL_UART_Receive(pc_uart,&Test_Buffer,sizeof(Test_Buffer),1000);
-                             ^~~~~~~~~~~~
-../Drivers/STM32F4xx_HAL_Driver/Inc\stm32f4xx_hal_uart.h(723): note: passing argument to parameter 'pData' here
-HAL_StatusTypeDef HAL_UART_Receive(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-                                                                       ^
+../Core/Src/LinkList.c(111): warning: incompatible pointer types passing 'uint32_t (*)[1]' (aka 'unsigned int (*)[1]') to parameter of type 'uint8_t *' (aka 'unsigned char *') [-Wincompatible-pointer-types]
+        HAL_UART_Receive_IT(pc_uart, &Test_Buffer, 1);
+                                     ^~~~~~~~~~~~
+../Drivers/STM32F4xx_HAL_Driver/Inc\stm32f4xx_hal_uart.h(725): note: passing argument to parameter 'pData' here
+HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+                                                                          ^
+1 warning generated.
+compiling LinkList.c...
+../Core/Src/main.c(99): warning: incompatible pointer types passing 'uint32_t (*)[1]' (aka 'unsigned int (*)[1]') to parameter of type 'uint8_t *' (aka 'unsigned char *') [-Wincompatible-pointer-types]
+  HAL_UART_Receive_IT(pc_uart, &Test_Buffer, 1);
+                               ^~~~~~~~~~~~
+../Drivers/STM32F4xx_HAL_Driver/Inc\stm32f4xx_hal_uart.h(725): note: passing argument to parameter 'pData' here
+HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+                                                                          ^
 1 warning generated.
 compiling main.c...
-compiling stm32f4xx_hal_msp.c...
-compiling Flash.c...
-../Core/Src/menu.c(54): warning: implicit conversion from enumeration type 'UserCommand' to different enumeration type 'BootloaderState' [-Wenum-conversion]
-        currentState = View_C_Shrap;
-                     ~ ^~~~~~~~~~~~
-../Core/Src/menu.c(35): warning: enumeration value 'View_C_Shrap' not handled in switch [-Wswitch]
-      switch (userCommand)
-              ^~~~~~~~~~~
-../Core/Src/menu.c(78): warning: case value not in enumerated type 'BootloaderState' [-Wswitch]
-     case View_C_Shrap:
-          ^
-../Core/Src/menu.c(20): warning: enumeration values 'UnKnow' and 'TEST_CMD' not handled in switch [-Wswitch]
-    switch (currentState)
-            ^~~~~~~~~~~~
-../Core/Src/menu.c(162): warning: format specifies type 'int' but the argument has type 'uint8_t *' (aka 'unsigned char *') [-Wformat]
-    sprintf(buffer, "File Name: %c\n\r", aFileName);
-                                ~~       ^~~~~~~~~
-                                %s
-5 warnings generated.
-compiling menu.c...
-compiling FLASH_SECTOR_F4.c...
-compiling ymodem.c...
-../Core/Src/UartRingbuffer_multi.c(438): warning: incompatible pointer types passing 'UART_HandleTypeDef *' (aka 'struct __UART_HandleTypeDef *') to parameter of type 'ring_buffer *' [-Wincompatible-pointer-types]
-                        store_uint32((uint32_t)c,pc_uart);
-                                                 ^~~~~~~
-../Core/Inc/main.h(49): note: expanded from macro 'pc_uart'
-#define pc_uart &huart3
-                ^~~~~~~
-../Core/Inc\UartRingbuffer_multi.h(102): note: passing argument to parameter 'buffer' here
-void store_uint32(uint32_t value, ring_buffer *buffer);
-                                               ^
-../Core/Src/UartRingbuffer_multi.c(989): warning: incompatible pointer types passing 'uint32_t[1024]' (aka 'unsigned int[1024]') to parameter of type 'char *' [-Wincompatible-pointer-types]
-        strncpy(VIEW_RX_Buffer, (const char *)_rx_buffer2->buffer, UART_BUFFER_SIZE);
-                ^~~~~~~~~~~~~~
-C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h(84): note: passing argument to parameter here
-extern _ARMABI char *strncpy(char * __restrict /*s1*/, const char * __restrict /*s2*/, size_t /*n*/) __attribute__((__nonnull__(1,2)));
-                                                     ^
-../Core/Src/UartRingbuffer_multi.c(997): warning: passing 'unsigned char[1024]' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
-        uint32_t Length_Of_File = Get_Actual_Received_Size(_rx_buffer2->buffer);
-                                                           ^~~~~~~~~~~~~~~~~~~
-../Core/Inc\UartRingbuffer_multi.h(100): note: passing argument to parameter 'buffer' here
-uint32_t Get_Actual_Received_Size(char* buffer);
-                                        ^
-../Core/Src/UartRingbuffer_multi.c(1051): warning: incompatible pointer types passing 'uint32_t[1024]' (aka 'unsigned int[1024]') to parameter of type 'char *' [-Wincompatible-pointer-types]
-        strncpy(VIEW_RX_Buffer, (const char *)_rx_buffer2->buffer, UART_BUFFER_SIZE);
-                ^~~~~~~~~~~~~~
-C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h(84): note: passing argument to parameter here
-extern _ARMABI char *strncpy(char * __restrict /*s1*/, const char * __restrict /*s2*/, size_t /*n*/) __attribute__((__nonnull__(1,2)));
-                                                     ^
-4 warnings generated.
-compiling UartRingbuffer_multi.c...
 linking...
-Program Size: Code=8102 RO-data=510 RW-data=12 ZI-data=10116  
+Program Size: Code=8000 RO-data=508 RW-data=12 ZI-data=3972  
 FromELF: creating hex file...
-"Calibattion_TEST_TO_GUI\OTA.axf" - 0 Error(s), 10 Warning(s).
+"Calibattion_TEST_TO_GUI\OTA.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -117,7 +71,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.6.0
       Include file:  CMSIS/Core/Include/tz_context.h
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

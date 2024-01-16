@@ -65,7 +65,7 @@ static void MX_USART3_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
-
+uint32_t Test_Buffer[LinkList_Receive_Size];
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
@@ -90,10 +90,15 @@ int main(void)
   // MX_ADC1_Init();
   // MX_TIM10_Init();
   /* 圓形緩衝初始化 把buffer 以及 head tail 初始化0 */
-  Ringbuf_init();
-  /**/
+  // Ringbuf_init();
+  /*User 變數初始化*/
   Initail_Variable();
-  Uart_sendstring("welcome to bootloader mode\r\n",pc_uart);
+  /*初始化鍊表*/
+  initLinkedList(&dataBuffer);
+  /*開啟 uart3 中斷接收*/
+  HAL_UART_Receive_IT(pc_uart, &Test_Buffer, 1);
+
+  // Uart_sendstring("welcome to bootloader mode\r\n", pc_uart);
   /*Flash 測試功能區*/
   /* Make Sure you cross check the protected Sectors in the reference manual of your board */
 #ifdef DEBUG_MODE_FLASH
@@ -127,13 +132,10 @@ int main(void)
     }
 #endif
     // Test_Buffer_Receive();
-    HAL_UART_Receive(pc_uart,&Test_Buffer,sizeof(Test_Buffer),1000);
-    /*Message Bootloader for User to Erase Application*/
-    // BootLoader_Menu();
-    /*觀測點*/
-    // HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-    // HAL_Delay(100);
-    // Test_Cnt_Jump_User_App();
+    // HAL_UART_Receive(pc_uart, &Test_Buffer, sizeof(Test_Buffer), 1000);
+#ifdef Test_Receive_Buffer
+
+#endif
   }
   /* USER CODE END 3 */
 }
@@ -385,6 +387,14 @@ void Error_Handler(void)
   {
   }
   /* USER CODE END Error_Handler_Debug */
+}
+
+/**
+ * @brief
+ *
+ */
+void Receive_BIN(void)
+{
 }
 
 #ifdef USE_FULL_ASSERT
