@@ -93,23 +93,42 @@ void BootLoader_Menu(void)
  */
 void RunApp(void)
 {
+  uint32_t i = 0;
+
   // 从应用程序的第二字（地址 APPLICATION_ADDRESS+4）读取一个32位的值
   JumpAddress = *(__IO uint32_t *)(APPLICATION_ADDRESS);
 
   // 将 Jump_To_Application 设置为一个函数指针，指向 JumpAddress 地址处的函数
   Jump_To_Application = (pFunction)JumpAddress;
 
+  /*關閉全局中斷*/
+  __disable_irq();
+
+  /*關閉定時器*/
+  SysTick->CTRL = 0;
+  SysTick->LOAD = 0;
+  SysTick->VAL = 0;
+
+  /*默認MCU CLK*/
+  HAL_RCC_DeInit();
+
+  /*關閉全局中斷*/
+  for ( i = 0; i < 8; i++)
+  {
+    NVIC->ICER[i]=0xFFFFFFFF;
+    NVIC->ICPR[i]=0xFFFFFFFF;
+  }
+  
+  /*智能ISR*/
+  __enable_irq();
+  /*bootlaoder 地址映射0x00000000*/
+  __HAL_SYSCFG_REMAPMEMORY_FLASH();
+
   // 设置主堆栈指针（MSP）为应用程序的起始地址处的值,確保User app stack層正確性
   __set_MSP(*(__IO uint32_t *)APPLICATION_ADDRESS);
 
   // 调用 Jump_To_Application，实际上执行了一个间接函数调用，跳转到用户应用程序
   Jump_To_Application();
-
-  /*close isr*/
-  // __disable_irq();
-  /*可以正確跳轉致User 應用層*/
-  // void (*user_app_reset_handler)(void) = (void *)(*((uint32_t *)(APPLICATION_ADDRESS)));
-  // user_app_reset_handler();
 }
 
 /**
@@ -213,7 +232,3 @@ void UnFind_User_Application(void)
   Uart_sendstring("Plz check the bin file and reFlash again!\r\n", pc_uart);
   currentState = MENU;
 }
-
-
-
-

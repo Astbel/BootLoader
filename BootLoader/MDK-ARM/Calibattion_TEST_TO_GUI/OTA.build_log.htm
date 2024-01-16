@@ -22,16 +22,27 @@ Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
 C:\Users\astbe\OneDrive\Desktop\OTA\BootLoader\MDK-ARM\Calibattion_TEST_TO_GUI.uvprojx
-Project File Date:  01/04/2024
+Project File Date:  01/16/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'OTA'
-compiling UartRingbuffer_multi.c...
+../Core/Src/menu.c(35): warning: enumeration value 'INVALID_CMD' not handled in switch [-Wswitch]
+      switch (userCommand)
+              ^~~~~~~~~~~
+../Core/Src/menu.c(20): warning: enumeration value 'UnKnow' not handled in switch [-Wswitch]
+    switch (currentState)
+            ^~~~~~~~~~~~
+../Core/Src/menu.c(171): warning: format specifies type 'int' but the argument has type 'uint8_t *' (aka 'unsigned char *') [-Wformat]
+    sprintf(buffer, "File Name: %c\n\r", aFileName);
+                                ~~       ^~~~~~~~~
+                                %s
+3 warnings generated.
+compiling menu.c...
 linking...
-Program Size: Code=17132 RO-data=1136 RW-data=36 ZI-data=6100  
+Program Size: Code=17592 RO-data=1136 RW-data=36 ZI-data=6100  
 FromELF: creating hex file...
-"Calibattion_TEST_TO_GUI\OTA.axf" - 0 Error(s), 0 Warning(s).
+"Calibattion_TEST_TO_GUI\OTA.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -55,7 +66,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.6.0
       Include file:  CMSIS/Core/Include/tz_context.h
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
