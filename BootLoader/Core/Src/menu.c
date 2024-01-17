@@ -69,8 +69,9 @@ void BootLoader_Menu(void)
       break;
 
     case UPDATE_APPLICATION:
-      // Flash_User_Application();
+      
       Flash_User_Application_Form_C_Shrap();
+      // Test_Ring_Buff_Uart_Get_Bin_Data();
       Print_Menu_Message = False;
       currentState = MENU; // 返回主選單
       break;

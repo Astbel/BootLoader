@@ -961,64 +961,105 @@ int8_t Receive_User_Select(void)
  */
 void Flash_User_Application_Form_C_Shrap(void)
 {
-    /* 定義 cmd 字串命令 */
-    static char Flash_Download_Buffer[20] = "Download Firmware";
-    size_t numBytesToCompare = strlen(Flash_Download_Buffer) + 1; // 比較的字节数
-    /* 取得進入函數的初始時間 */
-    uint32_t startTime = HAL_GetTick();
-	
-    /* 非阻塞等待 Master 的 Rx_Buffer 是否為 Download Firmware */
-    while ((memcmp(Flash_Download_Buffer, (char *)_rx_buffer2->buffer, numBytesToCompare) != String_True))
-    {
-        /* 檢查是否超過 Timeout */
-        if (HAL_GetTick() - startTime >= Master_Flash_CMD_TimeOut)
-        {
-            /* 如果超過 Timeout，執行相應的動作並離開函數 */
-            Handle_Timeout_Action();
-            return;
-        }
-    }
+	/* 定義 cmd 字串命令 */
+	static char Flash_Download_Buffer[20] = "Download Firmware";
+	size_t numBytesToCompare = strlen(Flash_Download_Buffer) + 1; // 比較的字节数
+	/* 取得進入函數的初始時間 */
+	uint32_t startTime = HAL_GetTick();
 
-    /* 如果跳出 while 迴圈是因為收到命令，繼續執行後面的操作 */
+	/*RX Buffer ASCII轉型成U32*/
+	uintArrayToHexString(_rx_buffer2->buffer, 20, bufferAsString);
 
-    Uart_write(ACK, pc_uart);
-	/**/
-	#ifdef View_Buffer
-    /*將RX_Buffer 複製debug 觀測*/
-	memcpy(VIEW_RX_Buffer, _rx_buffer2->buffer, sizeof(uint32_t) * UART_BUFFER_SIZE);
+	/* 非阻塞等待 Master 的 Rx_Buffer 是否為 Download Firmware */
+	while ((memcmp(Flash_Download_Buffer, bufferAsString, numBytesToCompare) != String_True))
+	{
+		/* 檢查是否超過 Timeout */
+		if (HAL_GetTick() - startTime >= Master_Flash_CMD_TimeOut)
+		{
+			/* 如果超過 Timeout，執行相應的動作並離開函數 */
+			// Handle_Timeout_Action();
+			break;
+			// return;
+		}
+	}
 
-	#endif
-    /* 重制 buffer，等待下一個 cmd */
-    Reset_Rx_Buffer();
-    Uart_sendstring("Start Download Firwmare\r\n",pc_uart);	
-    /* 接收並從 rx_buffer 寫入地址 */
-    /* 計算 bin file 的 size */
-    uint16_t Length_Of_File = sizeof(_rx_buffer2->buffer);
+	/* 如果跳出 while 迴圈是因為收到命令，繼續執行後面的操作 */
 
-    /* rx_Buffer 轉 u32 data */
-    /* 將 uchar 數據陣列轉換為 uint32_t 數據陣列 */
-    uint32_t convertedData[Length_Of_File / 4]; // 假設 Length_Of_File 是 4 的倍數
+	Uart_write(ACK, pc_uart);
 
-    for (int i = 0; i < Length_Of_File / 4; ++i)
-        convertedData[i] = *((uint32_t *)&_rx_buffer2->buffer[i * 4]);
+	/* 重制 buffer，等待下一個 cmd */
+	// Reset_Rx_Buffer();
+	Uart_sendstring("Start Download Firwmare\r\n", pc_uart);
+	/* 接收並從 rx_buffer 寫入地址 */
+	/* 計算 bin file 的 size */
+	uint16_t Length_Of_File = sizeof(_rx_buffer2->buffer);
 
-    /* 轉致後的 data 致 Flash 寫入 */
-    Flash_Write_Data(APPLICATION_ADDRESS, convertedData, Length_Of_File);
+	/* rx_Buffer 轉 u32 data */
+	/* 將 uchar 數據陣列轉換為 uint32_t 數據陣列 */
+	uint32_t convertedData[Length_Of_File / 4]; // 假設 Length_Of_File 是 4 的倍數
 
-    /* Master EOT (end of transmission) 偵測結束並告訴 MASTER 完成燒錄回程 EOD */
-    if (_rx_buffer2->buffer[_rx_buffer2->tail] == EOT)
-        Uart_write(EOT, pc_uart);
+	for (int i = 0; i < Length_Of_File / 4; ++i)
+		convertedData[i] = (_rx_buffer2->buffer[i * 4 + 3] << 24) |
+						   (_rx_buffer2->buffer[i * 4 + 2] << 16) |
+						   (_rx_buffer2->buffer[i * 4 + 1] << 8) |
+						   _rx_buffer2->buffer[i * 4];
+
+#ifdef View_Buffer
+	/*將RX_Buffer 複製debug 觀測*/
+	memcpy(VIEW_RX_Buffer, convertedData, sizeof(uint32_t) * UART_BUFFER_SIZE);
+#endif
+
+	/* 轉致後的 data 致 Flash 寫入 */
+	// Flash_Write_Data(APPLICATION_ADDRESS, convertedData, Length_Of_File);
+
+	/* Master EOT (end of transmission) 偵測結束並告訴 MASTER 完成燒錄回程 EOD */
+	if (_rx_buffer2->buffer[_rx_buffer2->tail] == EOT)
+		Uart_write(EOT, pc_uart);
 	/*Send to Terinmal for end Flash*/
-	Uart_sendstring("Download Bin File Done!\r\n",pc_uart);	
+	Uart_sendstring("Download Bin File Done!\r\n", pc_uart);
 }
 
 /**
- * @brief 
+ * @brief
  * 超時機制
  */
 void Handle_Timeout_Action(void)
 {
-	Uart_write(NAK, pc_uart);
-	Uart_sendstring("Lost Connect!\r\n",pc_uart);
+	// Uart_write(NAK, pc_uart);
+	Uart_sendstring("Lost Connect!\r\n", pc_uart);
 }
+/**
+ * @brief
+ * 將字串ASCII轉移成u16並遞迴存入buffer中
+ * @param array  原先buffer 接收端rx_buffer
+ * @param length buffer長度
+ * @param output 要存入的目標
+ */
+void uintArrayToHexString(uint32_t *array, size_t length, char *output)
+{
+	for (size_t i = 0; i < length; ++i)
+	{
+		snprintf(output + i * 8, 9, "%08X", array[i]);
+	}
+}
+/**
+ * @brief
+ * 測試用檢測是否可以再ringbuffer下正常存入u32數據並且不遺失資料數據
+ */
+void Test_Ring_Buff_Uart_Get_Bin_Data(void)
+{
+	/* 計算 bin file 的 size */
+	uint16_t Length_Of_File = sizeof(_rx_buffer2->buffer);
 
+	/* rx_Buffer 轉 u32 data */
+	/* 將 uchar 數據陣列轉換為 uint32_t 數據陣列 */
+	uint32_t convertedData[Length_Of_File]; // 假設 Length_Of_File 是 4 的倍數
+
+	for (int i = 0; i < Length_Of_File; ++i)
+		convertedData[i] = *((uint32_t *)&_rx_buffer2->buffer[i]);
+
+	if (_rx_buffer2->buffer[_rx_buffer2->tail] == EOT)
+		Uart_write(EOT, pc_uart);
+
+	Uart_sendstring("Download Bin File Done!\r\n", pc_uart);
+}

@@ -20,6 +20,7 @@ BootloaderState currentState;
 UserCommand userCommand;
 
 uint32_t VIEW_RX_Buffer[UART_BUFFER_SIZE];
+char bufferAsString[20];
 /*
  * 初始化變數變量
  * 請區分 所有結構體 為一組 以利於分辨

@@ -92,5 +92,5 @@ extern uint8_t Print_Menu_Message;
 extern uint16_t Time_Out_cnt;
 /******************Buffer View  Flash Memory******************/
 extern uint32_t VIEW_RX_Buffer[UART_BUFFER_SIZE];
-
+extern char bufferAsString[20];
 #endif

@@ -97,4 +97,6 @@ void Reset_Rx_Buffer(void);
 void OTP_Protect_Event(void);
 void Flash_User_Application_Form_C_Shrap(void);
 void Handle_Timeout_Action(void);
+void uintArrayToHexString(uint32_t *array, size_t length, char *output);
+void Test_Ring_Buff_Uart_Get_Bin_Data(void);
 #endif /* UARTRINGBUFFER_H_ */
