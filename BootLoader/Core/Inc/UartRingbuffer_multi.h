@@ -13,10 +13,10 @@
 
 
 /* change the size of the buffer */
-#define UART_BUFFER_SIZE 1024
+#define UART_BUFFER_SIZE 4096
 typedef struct
 {
-  unsigned char buffer[UART_BUFFER_SIZE];
+  uint32_t buffer[UART_BUFFER_SIZE];
   volatile unsigned int head;
   volatile unsigned int tail;
 } ring_buffer;

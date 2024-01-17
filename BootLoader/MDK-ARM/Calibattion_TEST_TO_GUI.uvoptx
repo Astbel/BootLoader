@@ -153,32 +153,22 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>PFC_Variables</ItemText>
+          <ItemText>userCommand</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Data_12V_Min_Addr</ItemText>
+          <ItemText>currentState</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Slope_value</ItemText>
+          <ItemText>_rx_buffer2</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>userCommand</ItemText>
-        </Ww>
-        <Ww>
-          <count>4</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>currentState</ItemText>
-        </Ww>
-        <Ww>
-          <count>5</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>_rx_buffer2</ItemText>
+          <ItemText>VIEW_RX_Buffer</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

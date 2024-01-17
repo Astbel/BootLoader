@@ -968,7 +968,7 @@ void Flash_User_Application_Form_C_Shrap(void)
     uint32_t startTime = HAL_GetTick();
 	
     /* 非阻塞等待 Master 的 Rx_Buffer 是否為 Download Firmware */
-    while ((memcmp(Flash_Download_Buffer, _rx_buffer2->buffer, numBytesToCompare) != String_True))
+    while ((memcmp(Flash_Download_Buffer, (char *)_rx_buffer2->buffer, numBytesToCompare) != String_True))
     {
         /* 檢查是否超過 Timeout */
         if (HAL_GetTick() - startTime >= Master_Flash_CMD_TimeOut)
@@ -985,7 +985,7 @@ void Flash_User_Application_Form_C_Shrap(void)
 	/**/
 	#ifdef View_Buffer
     /*將RX_Buffer 複製debug 觀測*/
-	strncpy(VIEW_RX_Buffer, (const char *)_rx_buffer2->buffer, UART_BUFFER_SIZE);
+	memcpy(VIEW_RX_Buffer, _rx_buffer2->buffer, sizeof(uint32_t) * UART_BUFFER_SIZE);
 
 	#endif
     /* 重制 buffer，等待下一個 cmd */
